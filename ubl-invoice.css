@@ -1,0 +1,186 @@
+/* ========== GLOBALNI STIL ========== */
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  margin: 2rem auto;
+  padding: 2rem;
+  max-width: 800px;
+  background: #fff;
+  color: #000;
+  line-height: 1.5;
+}
+
+/* Glavni okvir računa */
+.invoice {
+  border: 1px solid #ccc;
+  padding: 2rem;
+  background: #fff;
+}
+
+/* ========== Zaglavlje ========== */
+.invoice-header {
+  border-bottom: 2px solid #000;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+}
+
+.invoice-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.invoice-header .meta div {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+}
+
+/* ========== Dobavljač i Kupac ========== */
+.parties {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  gap: 2rem;
+}
+
+.parties .supplier,
+.parties .customer {
+  flex: 1;
+}
+
+.parties h2 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #000;
+  padding-bottom: 0.3rem;
+}
+
+.parties div {
+  font-size: 0.9rem;
+}
+
+/* ========== Stavke računa ========== */
+.invoice-lines h2,
+.totals h2,
+.payment h2,
+.notes h2 {
+  font-size: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #000;
+  padding-bottom: 0.3rem;
+}
+
+.invoice-lines table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+.invoice-lines th,
+.invoice-lines td {
+  text-align: left;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.9rem;
+}
+
+.invoice-lines th {
+  background: #f9f9f9;
+  font-weight: bold;
+}
+
+/* ========== Totali ========== */
+.totals {
+  text-align: right;
+  margin-top: 2rem;
+}
+
+.totals div {
+  margin: 0.2rem 0;
+  font-size: 0.9rem;
+}
+
+.total-amount {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+/* ========== Podaci o plaćanju ========== */
+.payment div {
+  font-size: 0.9rem;
+  margin: 0.3rem 0;
+}
+
+/* ========== Dodatne napomene ========== */
+.notes {
+  font-style: italic;
+  margin-top: 2rem;
+  color: #444;
+}
+
+/* ========== Generički XML dump ========== */
+.dump {
+  margin-top: 3rem;
+  background: #f8f8f8;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  font-family: "Courier New", monospace;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.dump div {
+  margin-left: 1rem;
+}
+
+/* ========== PRINT STYLING ========== */
+@media print {
+  body {
+    margin: 0;
+    padding: 0;
+    background: none;
+  }
+
+  .invoice {
+    border: none;
+    padding: 0;
+  }
+
+  .parties {
+    flex-direction: row;
+  }
+
+  .invoice-header,
+  .invoice-lines,
+  .totals,
+  .notes,
+  .payment,
+  .dump {
+    page-break-inside: avoid;
+  }
+}
+
+/* ----- PRINT TUNING ----- */
+@media print {
+  html, body {
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  .invoice {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    overflow: visible !important;
+  }
+
+  table, tr, td, th {
+    page-break-inside: avoid;
+  }
+
+  .page-break {
+    page-break-before: always;
+  }
+}
