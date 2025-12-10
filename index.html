@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>TEST Vizualizacija</title>
@@ -10,9 +11,32 @@
       margin: 0;
       padding: 2rem;
     }
-    h1 {font-family: 'EON Head'; font-size: 1.8rem; margin-bottom: 1rem; }
-    input[type="file"] { margin-bottom: 1.5rem; }
-    .controls { margin-bottom: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    h1 {
+      font-family: 'EON Head';
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    input[type="file"] {
+      margin-bottom: 1.5rem;
+    }
+
+    .header {
+      display: flex;
+      margin: 0 0 2rem 0;
+      background-image: url('assets/EON_Pattern_2.2.png');
+      background-repeat: no-repeat;
+      background-size: 100% auto;
+    }
+
+    .controls {
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
     .controls button {
       background: #16a34a;
       color: white;
@@ -23,21 +47,27 @@
       font-size: 1rem;
       font-family: 'EON Brix Sans Regular', sans-serif;
     }
-    .controls button:hover { background: #15803d; }
+
+    .controls button:hover {
+      background: #15803d;
+    }
+
     .result {
       display: flex;
       flex-wrap: wrap;
       gap: 1.5rem;
     }
+
     .card {
       background: #fff;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       overflow: hidden;
       flex: 1 1 600px;
       display: flex;
       flex-direction: column;
     }
+
     .card-header {
       padding: 0.5rem 1rem;
       background: #f1f5f9;
@@ -46,6 +76,7 @@
       justify-content: space-between;
       align-items: center;
     }
+
     .card-header button {
       background: #2563eb;
       color: white;
@@ -55,21 +86,35 @@
       cursor: pointer;
       font-size: 0.9rem;
     }
-    .card-header button:hover { background: #1e40af; }
-    iframe { width: 100%; height: 700px; border: none; }
+
+    .card-header button:hover {
+      background: #1e40af;
+    }
+
+    iframe {
+      width: 100%;
+      height: 700px;
+      border: none;
+    }
+
     @font-face {
       font-family: EON Brix Sans Regular;
       src: url(assets/EON_BRIXSANS-REGULAR.TTF);
     }
+
     @font-face {
       font-family: EON Head;
       src: url(assets/240502-EON_Head/EON/EON-Head.otf);
     }
   </style>
 </head>
+
 <body>
-  <h1 style="color: red;">TEST VERZIJA</h1>
-  <h1>UBL Invoice &amp; Credit Note Viewer</h1>
+  <div class="header">
+    <h1 style="color: #ea1b0a;">TEST VERZIJA</h1>
+    <h1>UBL Invoice &amp; Credit Note Viewer</h1>
+  </div>
+
   <p>Select one or more XML files (Invoices or Credit Notes):</p>
   <input type="file" id="xmlFiles" accept=".xml" multiple />
   <div class="controls">
@@ -264,4 +309,5 @@ body {
     exportAllBtn.addEventListener("click", exportAll);
   </script>
 </body>
+
 </html>
