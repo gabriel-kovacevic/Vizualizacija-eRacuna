@@ -140,7 +140,7 @@
                                 <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:StreetName"/><br/>
                                 <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:CityName"/><br/>
                                 <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:PostalZone"/><br/>
-                                <xsl:call-template name="country-label"><xsl:with-param name="code" select="cac:Country/cbc:IdentificationCode"/></xsl:call-template><br/>
+                                <xsl:call-template name="country-label"><xsl:with-param name="code" select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cac:Country/cbc:IdentificationCode"/></xsl:call-template><br/>
                             </div>
                         </div>
                     </div>
