@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
     xmlns:n0="http://www.sap.com/eDocument/Croatia/FINA/InvoiceCreditNote/v2.0"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:prx="urn:sap.com:proxy:QEO:/1SAI/TASA6314546397EAD185D03:758"
     xmlns:hrextac="urn:mfin.gov.hr:schema:xsd:HRExtensionAggregateComponents-1"
     xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
@@ -9,7 +10,7 @@
     xmlns:sig="urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2"
     xmlns:xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
     xmlns:sac="urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2"
-    exclude-result-prefixes="n0 prx hrextac cac cbc ext sig xmlns sac">
+    exclude-result-prefixes="n0 xsl prx hrextac cac cbc ext sig xmlns sac">
 
     <xsl:output method="html" indent="yes" encoding="UTF-8" />
 
