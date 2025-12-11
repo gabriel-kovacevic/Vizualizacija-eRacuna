@@ -136,6 +136,9 @@
                         <div class="AccountingSupplierParty">
                             <h2>Prodavatelj</h2>
                             <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PartyName/cbc:Name"/><br/>
+                            <div class="PartyTaxScheme">
+                                <strong>OIB: </strong><xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID"/>
+                            </div>                            
                             <div class="PostalAddress">
                                 <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:StreetName"/><br/>
                                 <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:CityName"/><br/>
