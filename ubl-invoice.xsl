@@ -6,7 +6,7 @@
   xmlns:ubl-cn="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2"
   xmlns:n2="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
   xmlns:n3="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
-  xmlns:n4="urn:oasis:names:specification:ubl:schema:xsd:CommonnExtensionComponents-2"
+  xmlns:n4="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"
   xmlns:n5="urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2"
   xmlns:n7="urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2"
   xmlns:n1="urn:hzn.hr:schema:xsd:HRExtensionAggregateComponents-1"
