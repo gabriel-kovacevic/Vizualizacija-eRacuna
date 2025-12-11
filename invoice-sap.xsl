@@ -85,11 +85,6 @@
 
     <!-- Root template -->
     <xsl:template match="/">
-        <xsl:call-template name="render-document"/>
-    </xsl:template>
-
-    <!-- Template za račun -->
-        <xsl:template name="render-document">
             <html>
                 <head>
                     <meta charset="UTF-8"/>
