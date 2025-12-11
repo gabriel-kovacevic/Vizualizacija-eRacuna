@@ -102,12 +102,12 @@
                         </h1>
                         <p>Identifikator specifikacije: </p><xsl:value-of select="cbc:CustomizationID"/>
                         <div>
-                            <strong>Datum izdavanja računa: </strong><xsl:value-of select="cbc:IssueDate"/>
-                            <strong>Vrijeme izdavanja računa: </strong><xsl:value-of select="cbc:IssueTime"/>
-                            <strong>Datum dospijeća plaćanja: </strong><xsl:value-of select="cbc:DueDate"/>
-                            <strong>Tip računa: </strong><xsl:call-template name="invoice-type-label"><xsl:with-param name="code" select="cbc:InvoiceTypeCode"/></xsl:call-template>
-                            <strong>Valuta: </strong><xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template>
-                            <strong>Tip poslovnog procesa: </strong><xsl:call-template name="process-type-label"><xsl:with-param name="code" select="cbc:ProfileID"/></xsl:call-template>
+                            <strong>Datum izdavanja računa: </strong><xsl:value-of select="cbc:IssueDate"/><br/>
+                            <strong>Vrijeme izdavanja računa: </strong><xsl:value-of select="cbc:IssueTime"/><br/>
+                            <strong>Datum dospijeća plaćanja: </strong><xsl:value-of select="cbc:DueDate"/><br/>
+                            <strong>Tip računa: </strong><xsl:call-template name="invoice-type-label"><xsl:with-param name="code" select="cbc:InvoiceTypeCode"/></xsl:call-template><br/>
+                            <strong>Valuta: </strong><xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
+                            <strong>Tip poslovnog procesa: </strong><xsl:call-template name="process-type-label"><xsl:with-param name="code" select="cbc:ProfileID"/></xsl:call-template><br/>
                         </div>
                         <div class="OrderReference">
                             <strong>Referenca narudžbenice: </strong><xsl:value-of select="cac:OrderReference/cbc:ID"/>
