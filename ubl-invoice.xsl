@@ -316,7 +316,7 @@
             <xsl:choose>
               <!-- HRFISK taxes if present -->
               <xsl:when
-                test="n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRTaxTotal">
+                test="n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRTaxTotal">
                 <table border="1" cellpadding="5" cellspacing="0">
                   <thead>
                     <tr>
@@ -329,7 +329,7 @@
                   </thead>
                   <tbody>
                     <xsl:for-each
-                      select="n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRTaxTotal/n1:HRTaxSubtotal">
+                      select="n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRTaxTotal/n1:HRTaxSubtotal">
                       <xsl:for-each select="n1:HRTaxCategory">
                         <tr>
                           <td>
@@ -357,10 +357,10 @@
                       </td>
                       <td colspan="4">
                         <xsl:value-of
-                          select="format-number(n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRTaxTotal/n3:TaxAmount, '#,##0.00')" />
+                          select="format-number(n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRTaxTotal/n3:TaxAmount, '#,##0.00')" />
                         <xsl:text> </xsl:text>
                         <xsl:value-of
-                          select="n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRTaxTotal/n3:TaxAmount/@currencyID" />
+                          select="n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRTaxTotal/n3:TaxAmount/@currencyID" />
                       </td>
                     </tr>
                   </tfoot>
@@ -425,28 +425,28 @@
             <xsl:choose>
               <!-- Use HRFISK totals if present -->
               <xsl:when
-                test="n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal">
+                test="n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal">
                 <div>
                   <strong>Bez PDV-a: </strong>
                   <xsl:value-of
-                    select="format-number(number(n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n3:TaxExclusiveAmount), '#,##0.00')" />
+                    select="format-number(number(n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n3:TaxExclusiveAmount), '#,##0.00')" />
                   <xsl:text> </xsl:text>
                   <xsl:call-template name="currency-symbol">
                     <xsl:with-param name="code"
-                      select="n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n3:TaxExclusiveAmount/@currencyID" />
+                      select="n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n3:TaxExclusiveAmount/@currencyID" />
                   </xsl:call-template>
                 </div>
 
                 <xsl:if
-                  test="n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n1:OutOfScopeOfVATAmount">
+                  test="n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n1:OutOfScopeOfVATAmount">
                   <div>
                     <strong>Iznos izvan opsega PDV-a: </strong>
                     <xsl:value-of
-                      select="format-number(number(n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n1:OutOfScopeOfVATAmount), '#,##0.00')" />
+                      select="format-number(number(n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n1:OutOfScopeOfVATAmount), '#,##0.00')" />
                     <xsl:text> </xsl:text>
                     <xsl:call-template name="currency-symbol">
                       <xsl:with-param name="code"
-                        select="n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n1:OutOfScopeOfVATAmount/@currencyID" />
+                        select="n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n1:OutOfScopeOfVATAmount/@currencyID" />
                     </xsl:call-template>
                   </div>
                 </xsl:if>
@@ -457,14 +457,14 @@
                   </strong>
                   <!-- Sum of TaxExclusiveAmount + OutOfScopeOfVATAmount if both exist -->
                   <xsl:variable name="taxExcl"
-                    select="number(n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n3:TaxExclusiveAmount)" />
+                    select="number(n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n3:TaxExclusiveAmount)" />
                   <xsl:variable name="outOfScope"
-                    select="number(n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n1:OutOfScopeOfVATAmount)" />
+                    select="number(n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n1:OutOfScopeOfVATAmount)" />
                   <xsl:value-of select="format-number($taxExcl + $outOfScope, '#,##0.00')" />
                   <xsl:text> </xsl:text>
                   <xsl:call-template name="currency-symbol">
                     <xsl:with-param name="code"
-                      select="n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n3:TaxExclusiveAmount/@currencyID" />
+                      select="n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n3:TaxExclusiveAmount/@currencyID" />
                   </xsl:call-template>
                 </div>
 
@@ -539,14 +539,14 @@
                   <xsl:value-of select="n2:PaymentMeans/n3:InstructionNote" />
                 </td>
               </tr>
-              <xsl:for-each select="n4:UBLn4ensions/n4:UBLn4ension">
+              <xsl:for-each select="n4:UBLExtensions/n4:UBLExtension">
                 <xsl:if
-                  test="n4:n4ensionContent/n1:HRFISK20Data/n1:HRObracunPDVPoNaplati">
+                  test="n4:ExtensionContent/n1:HRFISK20Data/n1:HRObracunPDVPoNaplati">
                   <tr>
                     <th>Obračun PDV-a po naplati:</th>
                     <td>
                       <xsl:value-of
-                        select="n4:n4ensionContent/n1:HRFISK20Data/n1:HRObracunPDVPoNaplati" />
+                        select="n4:ExtensionContent/n1:HRFISK20Data/n1:HRObracunPDVPoNaplati" />
                     </td>
                   </tr>
                 </xsl:if>
@@ -590,7 +590,7 @@
                 </td>
               </tr>
             </xsl:if>
-            <xsl:if test="n4:UBLn4ensions">
+            <xsl:if test="n4:UBLExtensions">
               <tr>
                 <th>Digitalni potpis</th>
                 <td>Prisutna UBL ekstenzija potpisa</td>
