@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
+  xmlns:n0="http://www.sap.com/eDocument/Croatia/FINA/InvoiceCreditNote/v2.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:n6="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
   xmlns:ubl-cn="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2"
@@ -108,14 +109,14 @@
           <div class="invoice-header">
             <h1>
               <xsl:value-of select="$docType" />
-              <xsl:tn4> </xsl:tn4>
+              <xsl:text> </xsl:text>
               <xsl:value-of select="n3:ID" />
             </h1>
             <div>
               <strong>Datum izdavanja: </strong><xsl:value-of select="n3:IssueDate" />
               <xsl:if
                 test="n3:IssueTime">
-                <xsl:tn4> </xsl:tn4>
+                <xsl:text> </xsl:text>
                 <xsl:value-of select="n3:IssueTime" />
               </xsl:if> | <strong>Valuta: </strong><xsl:value-of
                 select="n3:DocumentCurrencyCode" />
@@ -250,7 +251,7 @@
                     <td>
                       <xsl:value-of
                         select="format-number(number(*[name()=$quantityElement]), '#,##0.###')" />
-                      <xsl:tn4> </xsl:tn4>
+                      <xsl:text> </xsl:text>
                       <xsl:call-template name="unit-label">
                         <xsl:with-param name="code" select="*[name()=$quantityElement]/@unitCode" />
                       </xsl:call-template>
@@ -258,7 +259,7 @@
                     <td>
                       <xsl:value-of
                         select="format-number(number(n2:Price/n3:PriceAmount), '#,##0.00')" />
-                      <xsl:tn4> </xsl:tn4>
+                      <xsl:text> </xsl:text>
                       <xsl:call-template name="currency-symbol">
                         <xsl:with-param name="code" select="n2:Price/n3:PriceAmount/@currencyID" />
                       </xsl:call-template>
@@ -266,7 +267,7 @@
                     <td>
                       <xsl:value-of
                         select="format-number(number(n3:Linen4ensionAmount), '#,##0.00')" />
-                      <xsl:tn4> </xsl:tn4>
+                      <xsl:text> </xsl:text>
                       <xsl:call-template name="currency-symbol">
                         <xsl:with-param name="code" select="n3:Linen4ensionAmount/@currencyID" />
                       </xsl:call-template>
@@ -285,13 +286,13 @@
                 <div class="billing-ref">
                   <div>
                     <strong>Broj dokumenta: </strong>
-                    <xsl:tn4> </xsl:tn4>
+                    <xsl:text> </xsl:text>
                     <xsl:value-of select="n3:ID" />
                   </div>
                   <xsl:if test="n3:IssueDate">
                     <div>
                       <strong>Datum izdavanja: </strong>
-                      <xsl:tn4> </xsl:tn4>
+                      <xsl:text> </xsl:text>
                       <xsl:value-of select="n3:IssueDate" />
                     </div>
                   </xsl:if>
@@ -357,7 +358,7 @@
                       <td colspan="4">
                         <xsl:value-of
                           select="format-number(n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRTaxTotal/n3:TaxAmount, '#,##0.00')" />
-                        <xsl:tn4> </xsl:tn4>
+                        <xsl:text> </xsl:text>
                         <xsl:value-of
                           select="n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRTaxTotal/n3:TaxAmount/@currencyID" />
                       </td>
@@ -407,7 +408,7 @@
                       </td>
                       <td colspan="4">
                         <xsl:value-of select="format-number(n2:TaxTotal/n3:TaxAmount, '#,##0.00')" />
-                        <xsl:tn4> </xsl:tn4>
+                        <xsl:text> </xsl:text>
                         <xsl:value-of select="n2:TaxTotal/n3:TaxAmount/@currencyID" />
                       </td>
                     </tr>
@@ -429,7 +430,7 @@
                   <strong>Bez PDV-a: </strong>
                   <xsl:value-of
                     select="format-number(number(n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n3:TaxExclusiveAmount), '#,##0.00')" />
-                  <xsl:tn4> </xsl:tn4>
+                  <xsl:text> </xsl:text>
                   <xsl:call-template name="currency-symbol">
                     <xsl:with-param name="code"
                       select="n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n3:TaxExclusiveAmount/@currencyID" />
@@ -442,7 +443,7 @@
                     <strong>Iznos izvan opsega PDV-a: </strong>
                     <xsl:value-of
                       select="format-number(number(n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n1:OutOfScopeOfVATAmount), '#,##0.00')" />
-                    <xsl:tn4> </xsl:tn4>
+                    <xsl:text> </xsl:text>
                     <xsl:call-template name="currency-symbol">
                       <xsl:with-param name="code"
                         select="n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n1:OutOfScopeOfVATAmount/@currencyID" />
@@ -460,7 +461,7 @@
                   <xsl:variable name="outOfScope"
                     select="number(n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n1:OutOfScopeOfVATAmount)" />
                   <xsl:value-of select="format-number($taxExcl + $outOfScope, '#,##0.00')" />
-                  <xsl:tn4> </xsl:tn4>
+                  <xsl:text> </xsl:text>
                   <xsl:call-template name="currency-symbol">
                     <xsl:with-param name="code"
                       select="n4:UBLn4ensions/n4:UBLn4ension/n4:n4ensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n3:TaxExclusiveAmount/@currencyID" />
@@ -475,7 +476,7 @@
                   <strong>Bez PDV-a: </strong>
                   <xsl:value-of
                     select="format-number(number(n2:LegalMonetaryTotal/n3:TaxExclusiveAmount), '#,##0.00')" />
-                  <xsl:tn4> </xsl:tn4>
+                  <xsl:text> </xsl:text>
                   <xsl:call-template name="currency-symbol">
                     <xsl:with-param name="code"
                       select="n2:LegalMonetaryTotal/n3:TaxExclusiveAmount/@currencyID" />
@@ -486,7 +487,7 @@
                   <strong>S PDV-om: </strong>
                   <xsl:value-of
                     select="format-number(number(n2:LegalMonetaryTotal/n3:TaxInclusiveAmount), '#,##0.00')" />
-                  <xsl:tn4> </xsl:tn4>
+                  <xsl:text> </xsl:text>
                   <xsl:call-template name="currency-symbol">
                     <xsl:with-param name="code"
                       select="n2:LegalMonetaryTotal/n3:TaxInclusiveAmount/@currencyID" />
@@ -498,7 +499,7 @@
                     <strong>Unaprijed plaćen iznos: </strong>
                     <xsl:value-of
                       select="format-number(number(n2:LegalMonetaryTotal/n3:PrepaidAmount), '#,##0.00')" />
-                    <xsl:tn4> </xsl:tn4>
+                    <xsl:text> </xsl:text>
                     <xsl:call-template name="currency-symbol">
                       <xsl:with-param name="code"
                         select="n2:LegalMonetaryTotal/n3:PrepaidAmount/@currencyID" />
@@ -512,7 +513,7 @@
                   </strong>
                   <xsl:value-of
                     select="format-number(number(n2:LegalMonetaryTotal/n3:PayableAmount), '#,##0.00')" />
-                  <xsl:tn4> </xsl:tn4>
+                  <xsl:text> </xsl:text>
                   <xsl:call-template name="currency-symbol">
                     <xsl:with-param name="code"
                       select="n2:LegalMonetaryTotal/n3:PayableAmount/@currencyID" />
