@@ -10,7 +10,7 @@
     xmlns:sig="urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2"
     xmlns:ubl-inv="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
     xmlns:sac="urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2"
-    exclude-result-prefixes="n0 prx hrextac cac cbc ext sig ubl-inv sac">
+    exclude-result-prefixes="n0 xsl prx hrextac cac cbc ext sig ubl-inv sac">
 
     <xsl:output method="html" indent="yes" encoding="UTF-8" />
 
