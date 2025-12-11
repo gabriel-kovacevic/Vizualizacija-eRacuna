@@ -8,9 +8,9 @@
     xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
     xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"
     xmlns:sig="urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2"
-    xmlns:xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+    xmlns:ubl-inv="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
     xmlns:sac="urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2"
-    exclude-result-prefixes="n0 prx hrextac cac cbc ext sig xmlns sac">
+    exclude-result-prefixes="n0 prx hrextac cac cbc ext sig ubl-inv sac">
 
     <xsl:output method="html" indent="yes" encoding="UTF-8" />
 
@@ -63,6 +63,7 @@
                 <xsl:value-of select="$code" />
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:template>
 
 
     <!-- Pretvaranje tipa računa (prema specifikaciji) -->
