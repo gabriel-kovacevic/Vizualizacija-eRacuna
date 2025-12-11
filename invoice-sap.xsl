@@ -83,7 +83,24 @@
         </xsl:choose>
     </xsl:template>
 
-    <!-- Root template -->
+    <!-- Pretvaranje države (ISO 3166-1 Alpha-2) -->
+     <xsl:template name="country-label">
+        <xsl:param name="code" />
+        <xsl:choose>
+            <xsl:when test="$code='HR'">Hrvatska</xsl:when>
+            <xsl:when test="$code='SI'">Slovenija</xsl:when>
+            <xsl:when test="$code='DE'">Njemačka</xsl:when>
+            <xsl:when test="$code='AT'">Austrija</xsl:when>
+            <xsl:when test="$code='HU'">Mađarska</xsl:when>
+            <xsl:when test="$code='RO'">Rumunjska</xsl:when>
+            <xsl:when test="$code='BG'">Bugarska</xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$code" />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <!-- Template za račun -->
     <xsl:template match="/ubl-inv:Invoice">
             <html>
                 <head>
@@ -123,7 +140,7 @@
                                 <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:StreetName"/><br/>
                                 <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:CityName"/><br/>
                                 <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:PostalZone"/><br/>
-                                <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:Country/cbc:IdentificationCode"/><br/>
+                                <xsl:call-template name="country-label"><xsl:with-param name="code" select="cac:Country/cbc:IdentificationCode"/></xsl:call-template><br/>
                             </div>
                         </div>
                     </div>
