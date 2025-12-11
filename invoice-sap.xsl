@@ -83,50 +83,51 @@
     </xsl:template>
 
     <!-- Template za račun -->
-     <xsl:template name="render-document">
-        <html>
-            <head>
-                <meta charset="UTF-8"/>
-                <title>
-                    Račun_
-                    <xsl:value-of select="cbc:ID"/>
-                </title>
-                <link rel="stylesheet" href="invoice.css"/>
-            </head>
-            <body>
-                <div class="invoice-header">
-                    <h1>
-                        Račun
-                        <xsl:text> </xsl:text>
+        <xsl:template name="render-document">
+            <html>
+                <head>
+                    <meta charset="UTF-8"/>
+                    <title>
+                        Račun_
                         <xsl:value-of select="cbc:ID"/>
-                    </h1>
-                    <p>Identifikator specifikacije: </p><xsl:value-of select="cbc:CustomizationID"/>
-                    <div>
-                        <strong>Datum izdavanja računa: </strong><xsl:value-of select="cbc:IssueDate"/>
-                        <strong>Vrijeme izdavanja računa: </strong><xsl:value-of select="cbc:IssueTime"/>
-                        <strong>Datum dospijeća plaćanja: </strong><xsl:value-of select="cbc:DueDate"/>
-                        <strong>Tip računa: </strong><xsl:call-template name="invoice-type-label"><xsl:with-param name="code" select="cbc:InvoiceTypeCode"/></xsl:call-template>
-                        <strong>Valuta: </strong><xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template>
-                        <strong>Tip poslovnog procesa: </strong><xsl:call-template name="process-type-label"><xsl:with-param name="code" select="cbc:ProfileID"/></xsl:call-template>
-                    </div>
-                    <div class="OrderReference">
-                        <strong>Referenca narudžbenice: </strong><xsl:value-of select="cac:OrderReference/cbc:ID"/>
-                        <strong>Referenca naloga za isporuku: </strong><xsl:value-of select="cac:OrderReference/cbc:SalesOrderID"/>
-                    </div>
-                </div>
-
-                <div class="parties">
-                    <div class="AccountingSupplierParty">
-                        <h2>Prodavatelj</h2>
-                        <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PartyName/cbc:Name"/><br/>
-                        <div class="PostalAddress">
-                            <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:StreetName"/><br/>
-                            <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:CityName"/><br/>
-                            <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:PostalZone"/><br/>
-                            <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:Country/cbc:IdentificationCode"/><br/>
+                    </title>
+                    <link rel="stylesheet" href="invoice.css"/>
+                </head>
+                <body>
+                    <div class="invoice-header">
+                        <h1>
+                            Račun
+                            <xsl:text> </xsl:text>
+                            <xsl:value-of select="cbc:ID"/>
+                        </h1>
+                        <p>Identifikator specifikacije: </p><xsl:value-of select="cbc:CustomizationID"/>
+                        <div>
+                            <strong>Datum izdavanja računa: </strong><xsl:value-of select="cbc:IssueDate"/>
+                            <strong>Vrijeme izdavanja računa: </strong><xsl:value-of select="cbc:IssueTime"/>
+                            <strong>Datum dospijeća plaćanja: </strong><xsl:value-of select="cbc:DueDate"/>
+                            <strong>Tip računa: </strong><xsl:call-template name="invoice-type-label"><xsl:with-param name="code" select="cbc:InvoiceTypeCode"/></xsl:call-template>
+                            <strong>Valuta: </strong><xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template>
+                            <strong>Tip poslovnog procesa: </strong><xsl:call-template name="process-type-label"><xsl:with-param name="code" select="cbc:ProfileID"/></xsl:call-template>
+                        </div>
+                        <div class="OrderReference">
+                            <strong>Referenca narudžbenice: </strong><xsl:value-of select="cac:OrderReference/cbc:ID"/>
+                            <strong>Referenca naloga za isporuku: </strong><xsl:value-of select="cac:OrderReference/cbc:SalesOrderID"/>
                         </div>
                     </div>
-                </div>
-            </body>
-        </html>
-     </xsl:template>
+                
+                    <div class="parties">
+                        <div class="AccountingSupplierParty">
+                            <h2>Prodavatelj</h2>
+                            <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PartyName/cbc:Name"/><br/>
+                            <div class="PostalAddress">
+                                <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:StreetName"/><br/>
+                                <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:CityName"/><br/>
+                                <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:PostalZone"/><br/>
+                                <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:Country/cbc:IdentificationCode"/><br/>
+                            </div>
+                        </div>
+                    </div>
+                </body>
+            </html>
+        </xsl:template>
+     </xsl:stylesheet>
