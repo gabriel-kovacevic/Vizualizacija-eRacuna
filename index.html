@@ -222,7 +222,7 @@ body {
 `;
 
     // Load XSL once
-    fetch("ubl-invoice.xsl")
+    fetch("invoice-sap.xsl")
       .then(r => r.text())
       .then(txt => {
         const parser = new DOMParser();
