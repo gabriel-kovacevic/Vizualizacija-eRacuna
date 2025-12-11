@@ -84,7 +84,7 @@
     </xsl:template>
 
     <!-- Root template -->
-    <xsl:template match="/">
+    <xsl:template match="ubl-inv:Invoice">
             <html>
                 <head>
                     <meta charset="UTF-8"/>
