@@ -110,7 +110,7 @@
                             <strong>Tip poslovnog procesa: </strong><xsl:call-template name="process-type-label"><xsl:with-param name="code" select="cbc:ProfileID"/></xsl:call-template><br/>
                         </div>
                         <div class="OrderReference">
-                            <strong>Referenca narudžbenice: </strong><xsl:value-of select="cac:OrderReference/cbc:ID"/>
+                            <strong>Referenca narudžbenice: </strong><xsl:value-of select="cac:OrderReference/cbc:ID"/><br/>
                             <strong>Referenca naloga za isporuku: </strong><xsl:value-of select="cac:OrderReference/cbc:SalesOrderID"/>
                         </div>
                     </div>
