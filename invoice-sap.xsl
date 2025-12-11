@@ -10,7 +10,7 @@
     xmlns:sig="urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2"
     xmlns:xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
     xmlns:sac="urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2"
-    exclude-result-prefixes="n0 xsl prx hrextac cac cbc ext sig xmlns sac">
+    exclude-result-prefixes="n0 prx hrextac cac cbc ext sig xmlns sac">
 
     <xsl:output method="html" indent="yes" encoding="UTF-8" />
 
@@ -114,7 +114,7 @@
                             <strong>Referenca naloga za isporuku: </strong><xsl:value-of select="cac:OrderReference/cbc:SalesOrderID"/>
                         </div>
                     </div>
-                
+
                     <div class="parties">
                         <div class="AccountingSupplierParty">
                             <h2>Prodavatelj</h2>
