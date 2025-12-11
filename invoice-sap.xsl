@@ -117,7 +117,7 @@
                             <xsl:text> </xsl:text>
                             <xsl:value-of select="cbc:ID"/>
                         </h1>
-                        <p>Identifikator specifikacije: </p><xsl:value-of select="cbc:CustomizationID"/>
+                        <strong>Identifikator specifikacije: </strong><xsl:value-of select="cbc:CustomizationID"/>
                         <div>
                             <strong>Datum izdavanja računa: </strong><xsl:value-of select="cbc:IssueDate"/><br/>
                             <strong>Vrijeme izdavanja računa: </strong><xsl:value-of select="cbc:IssueTime"/><br/>
