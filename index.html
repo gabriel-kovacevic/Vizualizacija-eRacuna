@@ -24,7 +24,7 @@
     .header {
       display: flex;
       flex-direction: column;
-      padding: 2rem;
+      padding: 2%;
       margin: 0 0 2rem 0;
       width: 100%;
       height: auto;
@@ -96,8 +96,13 @@
       background: #1e40af;
     }
 
+    .ctrl {
+      padding: 2%;
+    }
+
     iframe {
       width: 100%;
+      padding: 1%;
       height: 700px;
       border: none;
     }
@@ -120,13 +125,16 @@
     <h1>UBL Invoice &amp; Credit Note Viewer</h1>
   </div>
 
-  <p>Select one or more XML files (Invoices or Credit Notes):</p>
-  <input type="file" id="xmlFiles" accept=".xml" multiple />
-  <div class="controls">
-    <button id="printAll" disabled>️ Print All as PDF</button>
-    <button id="exportAll" disabled> Export All as ZIP (HTML)</button>
+  <div class="ctrl">
+    <p>Select one or more XML files (Invoices or Credit Notes):</p>
+    <input type="file" id="xmlFiles" accept=".xml" multiple />
+    <div class="controls">
+      <button id="printAll" disabled>️ Print All as PDF</button>
+      <button id="exportAll" disabled> Export All as ZIP (HTML)</button>
+    </div>
+    <div class="result" id="result"></div>
   </div>
-  <div class="result" id="result"></div>
+
 
   <!-- JSZip for ZIP export -->
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
