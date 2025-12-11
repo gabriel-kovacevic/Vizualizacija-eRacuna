@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
-  xmlns:n0="http://www.sap.com/eDocument/Croatia/FINA/InvoiceCreditNote/v2.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:n6="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+  xmlns:ubl-inv="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
   xmlns:ubl-cn="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2"
-  xmlns:n2="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
-  xmlns:n3="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
-  xmlns:n4="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"
-  xmlns:n5="urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2"
-  xmlns:n7="urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2"
-  xmlns:n1="urn:hzn.hr:schema:xsd:HRExtensionAggregateComponents-1"
-  exclude-result-prefixes="n6 ubl-cn n2 n3 n4 n5 n7 n1">
+  xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+  xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+  xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"
+  xmlns:sig="urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2"
+  xmlns:sac="urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2"
+  xmlns:hrextac="urn:hzn.hr:schema:xsd:HRExtensionAggregateComponents-1"
+  exclude-result-prefixes="ubl-inv ubl-cn cac cbc ext sig sac hrextac">
 
   <xsl:output method="html" indent="yes" encoding="UTF-8" />
 
@@ -47,8 +46,8 @@
   <!-- ================= ODABIR VRSTE DOKUMENTA ================= -->
   <xsl:template match="/">
     <xsl:choose>
-      <xsl:when test="/n6:Invoice">
-        <xsl:apply-templates select="/n6:Invoice" />
+      <xsl:when test="/ubl-inv:Invoice">
+        <xsl:apply-templates select="/ubl-inv:Invoice" />
       </xsl:when>
       <xsl:when test="/ubl-cn:CreditNote">
         <xsl:apply-templates select="/ubl-cn:CreditNote" />
@@ -64,12 +63,12 @@
   </xsl:template>
 
   <!-- ================= INVOICE ================= -->
-  <xsl:template match="/n6:Invoice">
+  <xsl:template match="/ubl-inv:Invoice">
     <xsl:call-template name="render-document">
       <xsl:with-param name="docType" select="'Račun'" />
-      <xsl:with-param name="lineElement" select="'n2:InvoiceLine'" />
-      <xsl:with-param name="typeCode" select="'n3:InvoiceTypeCode'" />
-      <xsl:with-param name="quantityElement" select="'n3:InvoicedQuantity'" />
+      <xsl:with-param name="lineElement" select="'cac:InvoiceLine'" />
+      <xsl:with-param name="typeCode" select="'cbc:InvoiceTypeCode'" />
+      <xsl:with-param name="quantityElement" select="'cbc:InvoicedQuantity'" />
       <xsl:with-param name="totalLabel" select="'Ukupan iznos za plaćanje:'" />
     </xsl:call-template>
   </xsl:template>
@@ -78,9 +77,9 @@
   <xsl:template match="/ubl-cn:CreditNote">
     <xsl:call-template name="render-document">
       <xsl:with-param name="docType" select="'Odobrenje računa'" />
-      <xsl:with-param name="lineElement" select="'n2:CreditNoteLine'" />
-      <xsl:with-param name="typeCode" select="'n3:CreditNoteTypeCode'" />
-      <xsl:with-param name="quantityElement" select="'n3:CreditedQuantity'" />
+      <xsl:with-param name="lineElement" select="'cac:CreditNoteLine'" />
+      <xsl:with-param name="typeCode" select="'cbc:CreditNoteTypeCode'" />
+      <xsl:with-param name="quantityElement" select="'cbc:CreditedQuantity'" />
       <xsl:with-param name="totalLabel" select="'Ukupan iznos odobrenja:'" />
     </xsl:call-template>
   </xsl:template>
@@ -98,7 +97,7 @@
         <meta charset="UTF-8" />
         <title>
           <xsl:value-of select="$docType" />
-          <xsl:value-of select="n3:ID" />
+          <xsl:value-of select="cbc:ID" />
         </title>
         <link rel="stylesheet" href="invoice.css" />
       </head>
@@ -110,26 +109,26 @@
             <h1>
               <xsl:value-of select="$docType" />
               <xsl:text> </xsl:text>
-              <xsl:value-of select="n3:ID" />
+              <xsl:value-of select="cbc:ID" />
             </h1>
             <div>
-              <strong>Datum izdavanja: </strong><xsl:value-of select="n3:IssueDate" />
+              <strong>Datum izdavanja: </strong><xsl:value-of select="cbc:IssueDate" />
               <xsl:if
-                test="n3:IssueTime">
+                test="cbc:IssueTime">
                 <xsl:text> </xsl:text>
-                <xsl:value-of select="n3:IssueTime" />
+                <xsl:value-of select="cbc:IssueTime" />
               </xsl:if> | <strong>Valuta: </strong><xsl:value-of
-                select="n3:DocumentCurrencyCode" />
+                select="cbc:DocumentCurrencyCode" />
             </div>
             <div>
               <strong>Vrsta dokumenta (kod): </strong>
               <xsl:value-of select="*[name()=$typeCode]" />
             </div>
             <!-- FISKALNI PODACI -->
-            <xsl:if test="n3:DueDate">
+            <xsl:if test="cbc:DueDate">
               <div>
                 <strong>Datum dospijeća: </strong>
-                <xsl:value-of select="n3:DueDate" />
+                <xsl:value-of select="cbc:DueDate" />
               </div>
             </xsl:if>
           </div>
@@ -141,80 +140,80 @@
             <div>
               <h2>Dobavljač</h2>
               <xsl:value-of
-                select="n2:AccountingSupplierParty/n2:Party/n2:PartyLegalEntity/n3:RegistrationName" /><br />
+                select="cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName" /><br />
               <xsl:value-of
-                select="n2:AccountingSupplierParty/n2:Party/n2:PostalAddress/n3:StreetName" /><br />
+                select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:StreetName" /><br />
               <xsl:value-of
-                select="n2:AccountingSupplierParty/n2:Party/n2:PostalAddress/n3:CityName" />, <xsl:value-of
-                select="n2:AccountingSupplierParty/n2:Party/n2:PostalAddress/n3:PostalZone" /><br />
+                select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:CityName" />, <xsl:value-of
+                select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:PostalZone" /><br />
               OIB: <xsl:value-of
-                select="n2:AccountingSupplierParty/n2:Party/n2:PartyTaxScheme/n3:CompanyID" /><br />
+                select="cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID" /><br />
               <xsl:if
-                test="n2:AccountingSupplierParty/n2:Party/n2:PartyIdentification"> Poslovna
+                test="cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification"> Poslovna
               jedinica: <xsl:value-of
-                  select="n2:AccountingSupplierParty/n2:Party/n2:PartyIdentification/n3:ID" />
+                  select="cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification/cbc:ID" />
               </xsl:if>
               <xsl:if
-                test="n2:AccountingSupplierParty/n2:Party/n2:PartyLegalEntity/n3:CompanyLegalForm">
+                test="cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:CompanyLegalForm">
                 <div class="company-legalform">
                   <em>
                     <xsl:value-of
-                      select="n2:AccountingSupplierParty/n2:Party/n2:PartyLegalEntity/n3:CompanyLegalForm" />
+                      select="cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:CompanyLegalForm" />
                   </em>
                 </div>
               </xsl:if>
               <xsl:if
-                test="n2:AccountingSupplierParty/n2:SellerContact">
+                test="cac:AccountingSupplierParty/cac:SellerContact">
                 <div class="seller-contact">
                   <strong>Operater: </strong>
                   <xsl:value-of
-                    select="n2:AccountingSupplierParty/n2:SellerContact/n3:Name" /> (<xsl:value-of
-                    select="n2:AccountingSupplierParty/n2:SellerContact/n3:ID" />) </div>
+                    select="cac:AccountingSupplierParty/cac:SellerContact/cbc:Name" /> (<xsl:value-of
+                    select="cac:AccountingSupplierParty/cac:SellerContact/cbc:ID" />) </div>
               </xsl:if>
             </div>
 
             <div>
               <h2>Kupac</h2>
               <xsl:value-of
-                select="n2:AccountingCustomerParty/n2:Party/n2:PartyLegalEntity/n3:RegistrationName" /><br />
+                select="cac:AccountingCustomerParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName" /><br />
               <xsl:value-of
-                select="n2:AccountingCustomerParty/n2:Party/n2:PostalAddress/n3:StreetName" /><br />
+                select="cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cbc:StreetName" /><br />
               <xsl:value-of
-                select="n2:AccountingCustomerParty/n2:Party/n2:PostalAddress/n3:CityName" />, <xsl:value-of
-                select="n2:AccountingCustomerParty/n2:Party/n2:PostalAddress/n3:PostalZone" /><br />
+                select="cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cbc:CityName" />, <xsl:value-of
+                select="cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cbc:PostalZone" /><br />
               OIB: <xsl:value-of
-                select="n2:AccountingCustomerParty/n2:Party/n2:PartyTaxScheme/n3:CompanyID" /><br />
+                select="cac:AccountingCustomerParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID" /><br />
               <xsl:if
-                test="n2:AccountingCustomerParty/n2:Party/n2:PartyIdentification"> Poslovna
+                test="cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification"> Poslovna
               jedinica: <xsl:value-of
-                  select="n2:AccountingCustomerParty/n2:Party/n2:PartyIdentification/n3:ID" />
+                  select="cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification/cbc:ID" />
               </xsl:if>
             </div>
           </div>
 
           <!-- ========== DOSTAVA ========== -->
-          <xsl:if test="n2:Delivery">
+          <xsl:if test="cac:Delivery">
             <div class="delivery section">
               <h2>Podaci o dostavi</h2>
-              <xsl:for-each select="n2:Delivery">
-                <xsl:if test="n2:DeliveryLocation/n2:Address">
+              <xsl:for-each select="cac:Delivery">
+                <xsl:if test="cac:DeliveryLocation/cac:Address">
                   <div>
                     <strong>Adresa dostave: </strong>
                     <xsl:value-of
-                      select="n2:DeliveryLocation/n2:Address/n3:StreetName" />, <xsl:value-of
-                      select="n2:DeliveryLocation/n2:Address/n3:CityName" /> (<xsl:value-of
-                      select="n2:DeliveryLocation/n2:Address/n3:PostalZone" />) </div>
+                      select="cac:DeliveryLocation/cac:Address/cbc:StreetName" />, <xsl:value-of
+                      select="cac:DeliveryLocation/cac:Address/cbc:CityName" /> (<xsl:value-of
+                      select="cac:DeliveryLocation/cac:Address/cbc:PostalZone" />) </div>
                 </xsl:if>
-                <xsl:if test="n2:ActualDeliveryDate">
+                <xsl:if test="cac:ActualDeliveryDate">
                   <div>
                     <strong>Datum dostave: </strong>
-                    <xsl:value-of select="n2:ActualDeliveryDate" />
+                    <xsl:value-of select="cac:ActualDeliveryDate" />
                   </div>
                 </xsl:if>
-                <xsl:if test="n2:DeliveryParty/n2:PartyName/n3:Name">
+                <xsl:if test="cac:DeliveryParty/cac:PartyName/cbc:Name">
                   <div>
                     <strong>Isporučitelj: </strong>
-                    <xsl:value-of select="n2:DeliveryParty/n2:PartyName/n3:Name" />
+                    <xsl:value-of select="cac:DeliveryParty/cac:PartyName/cbc:Name" />
                   </div>
                 </xsl:if>
               </xsl:for-each>
@@ -238,14 +237,14 @@
                 <xsl:for-each select="*[name()=$lineElement]">
                   <tr>
                     <td>
-                      <xsl:value-of select="n3:ID" />
+                      <xsl:value-of select="cbc:ID" />
                     </td>
                     <td>
-                      <xsl:value-of select="n2:Item/n3:Name" />
-                      <xsl:if test="n2:Item/n2:CommodityClassification/n3:ItemClassificationCode">
+                      <xsl:value-of select="cac:Item/cbc:Name" />
+                      <xsl:if test="cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode">
                         <br />
                         <span class="small">Šifra: <xsl:value-of
-                            select="n2:Item/n2:CommodityClassification/n3:ItemClassificationCode" /></span>
+                            select="cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode" /></span>
                       </xsl:if>
                     </td>
                     <td>
@@ -258,18 +257,18 @@
                     </td>
                     <td>
                       <xsl:value-of
-                        select="format-number(number(n2:Price/n3:PriceAmount), '#,##0.00')" />
+                        select="format-number(number(cac:Price/cbc:PriceAmount), '#,##0.00')" />
                       <xsl:text> </xsl:text>
                       <xsl:call-template name="currency-symbol">
-                        <xsl:with-param name="code" select="n2:Price/n3:PriceAmount/@currencyID" />
+                        <xsl:with-param name="code" select="cac:Price/cbc:PriceAmount/@currencyID" />
                       </xsl:call-template>
                     </td>
                     <td>
                       <xsl:value-of
-                        select="format-number(number(n3:Linen4ensionAmount), '#,##0.00')" />
+                        select="format-number(number(cbc:LineExtensionAmount), '#,##0.00')" />
                       <xsl:text> </xsl:text>
                       <xsl:call-template name="currency-symbol">
-                        <xsl:with-param name="code" select="n3:Linen4ensionAmount/@currencyID" />
+                        <xsl:with-param name="code" select="cbc:LineExtensionAmount/@currencyID" />
                       </xsl:call-template>
                     </td>
                   </tr>
@@ -278,29 +277,29 @@
             </table>
           </div>
           <div class="invoice-reference">
-            <xsl:if test="n2:BillingReference">
+            <xsl:if test="cac:BillingReference">
               <div>
                 <h2>Reference na povezane dokumente</h2>
               </div>
-              <xsl:for-each select="n2:BillingReference/n2:InvoiceDocumentReference">
+              <xsl:for-each select="cac:BillingReference/cac:InvoiceDocumentReference">
                 <div class="billing-ref">
                   <div>
                     <strong>Broj dokumenta: </strong>
                     <xsl:text> </xsl:text>
-                    <xsl:value-of select="n3:ID" />
+                    <xsl:value-of select="cbc:ID" />
                   </div>
-                  <xsl:if test="n3:IssueDate">
+                  <xsl:if test="cbc:IssueDate">
                     <div>
                       <strong>Datum izdavanja: </strong>
                       <xsl:text> </xsl:text>
-                      <xsl:value-of select="n3:IssueDate" />
+                      <xsl:value-of select="cbc:IssueDate" />
                     </div>
                   </xsl:if>
-                  <xsl:if test="n3:DocumentDescription">
+                  <xsl:if test="cbc:DocumentDescription">
                     <div>
                       <strong>Opis: </strong>
                       <div class="document-description">
-                        <xsl:value-of select="n3:DocumentDescription" disable-output-escaping="yes" />
+                        <xsl:value-of select="cbc:DocumentDescription" disable-output-escaping="yes" />
                       </div>
                     </div>
                   </xsl:if>
@@ -316,7 +315,7 @@
             <xsl:choose>
               <!-- HRFISK taxes if present -->
               <xsl:when
-                test="n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRTaxTotal">
+                test="ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/hrextac:HRFISK20Data/hrextac:HRTaxTotal">
                 <table border="1" cellpadding="5" cellspacing="0">
                   <thead>
                     <tr>
@@ -329,22 +328,22 @@
                   </thead>
                   <tbody>
                     <xsl:for-each
-                      select="n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRTaxTotal/n1:HRTaxSubtotal">
-                      <xsl:for-each select="n1:HRTaxCategory">
+                      select="ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/hrextac:HRFISK20Data/hrextac:HRTaxTotal/hrextac:HRTaxSubtotal">
+                      <xsl:for-each select="hrextac:HRTaxCategory">
                         <tr>
                           <td>
-                            <xsl:value-of select="format-number(../n3:TaxableAmount, '#,##0.00')" />
+                            <xsl:value-of select="format-number(../cbc:TaxableAmount, '#,##0.00')" />
                           </td>
                           <td>
-                            <xsl:value-of select="format-number(../n3:TaxAmount, '#,##0.00')" />
+                            <xsl:value-of select="format-number(../cbc:TaxAmount, '#,##0.00')" />
                           </td>
                           <td>
-                            <xsl:value-of select="n3:Name" /> (<xsl:value-of select="n3:ID" />) </td>
+                            <xsl:value-of select="cbc:Name" /> (<xsl:value-of select="cbc:ID" />) </td>
                           <td>
-                            <xsl:value-of select="format-number(n3:Percent, '#,##0.##')" />
+                            <xsl:value-of select="format-number(cbc:Percent, '#,##0.##')" />
                           </td>
                           <td>
-                            <xsl:value-of select="../n3:TaxableAmount/@currencyID" />
+                            <xsl:value-of select="../cbc:TaxableAmount/@currencyID" />
                           </td>
                         </tr>
                       </xsl:for-each>
@@ -357,10 +356,10 @@
                       </td>
                       <td colspan="4">
                         <xsl:value-of
-                          select="format-number(n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRTaxTotal/n3:TaxAmount, '#,##0.00')" />
+                          select="format-number(ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/hrextac:HRFISK20Data/hrextac:HRTaxTotal/cbc:TaxAmount, '#,##0.00')" />
                         <xsl:text> </xsl:text>
                         <xsl:value-of
-                          select="n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRTaxTotal/n3:TaxAmount/@currencyID" />
+                          select="ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/hrextac:HRFISK20Data/hrextac:HRTaxTotal/cbc:TaxAmount/@currencyID" />
                       </td>
                     </tr>
                   </tfoot>
@@ -380,22 +379,22 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <xsl:for-each select="n2:TaxTotal/n2:TaxSubtotal">
-                      <xsl:for-each select="n2:TaxCategory">
+                    <xsl:for-each select="cac:TaxTotal/cac:TaxSubtotal">
+                      <xsl:for-each select="cac:TaxCategory">
                         <tr>
                           <td>
-                            <xsl:value-of select="format-number(../n3:TaxableAmount, '#,##0.00')" />
+                            <xsl:value-of select="format-number(../cbc:TaxableAmount, '#,##0.00')" />
                           </td>
                           <td>
-                            <xsl:value-of select="format-number(../n3:TaxAmount, '#,##0.00')" />
+                            <xsl:value-of select="format-number(../cbc:TaxAmount, '#,##0.00')" />
                           </td>
                           <td>
-                            <xsl:value-of select="n3:Name" /> (<xsl:value-of select="n3:ID" />) </td>
+                            <xsl:value-of select="cbc:Name" /> (<xsl:value-of select="cbc:ID" />) </td>
                           <td>
-                            <xsl:value-of select="format-number(n3:Percent, '#,##0.##')" />
+                            <xsl:value-of select="format-number(cbc:Percent, '#,##0.##')" />
                           </td>
                           <td>
-                            <xsl:value-of select="../n3:TaxableAmount/@currencyID" />
+                            <xsl:value-of select="../cbc:TaxableAmount/@currencyID" />
                           </td>
                         </tr>
                       </xsl:for-each>
@@ -407,9 +406,9 @@
                         <strong>Ukupno poreza:</strong>
                       </td>
                       <td colspan="4">
-                        <xsl:value-of select="format-number(n2:TaxTotal/n3:TaxAmount, '#,##0.00')" />
+                        <xsl:value-of select="format-number(cac:TaxTotal/cbc:TaxAmount, '#,##0.00')" />
                         <xsl:text> </xsl:text>
-                        <xsl:value-of select="n2:TaxTotal/n3:TaxAmount/@currencyID" />
+                        <xsl:value-of select="cac:TaxTotal/cbc:TaxAmount/@currencyID" />
                       </td>
                     </tr>
                   </tfoot>
@@ -425,28 +424,28 @@
             <xsl:choose>
               <!-- Use HRFISK totals if present -->
               <xsl:when
-                test="n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal">
+                test="ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/hrextac:HRFISK20Data/hrextac:HRLegalMonetaryTotal">
                 <div>
                   <strong>Bez PDV-a: </strong>
                   <xsl:value-of
-                    select="format-number(number(n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n3:TaxExclusiveAmount), '#,##0.00')" />
+                    select="format-number(number(ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/hrextac:HRFISK20Data/hrextac:HRLegalMonetaryTotal/cbc:TaxExclusiveAmount), '#,##0.00')" />
                   <xsl:text> </xsl:text>
                   <xsl:call-template name="currency-symbol">
                     <xsl:with-param name="code"
-                      select="n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n3:TaxExclusiveAmount/@currencyID" />
+                      select="ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/hrextac:HRFISK20Data/hrextac:HRLegalMonetaryTotal/cbc:TaxExclusiveAmount/@currencyID" />
                   </xsl:call-template>
                 </div>
 
                 <xsl:if
-                  test="n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n1:OutOfScopeOfVATAmount">
+                  test="ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/hrextac:HRFISK20Data/hrextac:HRLegalMonetaryTotal/hrextac:OutOfScopeOfVATAmount">
                   <div>
                     <strong>Iznos izvan opsega PDV-a: </strong>
                     <xsl:value-of
-                      select="format-number(number(n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n1:OutOfScopeOfVATAmount), '#,##0.00')" />
+                      select="format-number(number(ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/hrextac:HRFISK20Data/hrextac:HRLegalMonetaryTotal/hrextac:OutOfScopeOfVATAmount), '#,##0.00')" />
                     <xsl:text> </xsl:text>
                     <xsl:call-template name="currency-symbol">
                       <xsl:with-param name="code"
-                        select="n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n1:OutOfScopeOfVATAmount/@currencyID" />
+                        select="ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/hrextac:HRFISK20Data/hrextac:HRLegalMonetaryTotal/hrextac:OutOfScopeOfVATAmount/@currencyID" />
                     </xsl:call-template>
                   </div>
                 </xsl:if>
@@ -457,14 +456,14 @@
                   </strong>
                   <!-- Sum of TaxExclusiveAmount + OutOfScopeOfVATAmount if both exist -->
                   <xsl:variable name="taxExcl"
-                    select="number(n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n3:TaxExclusiveAmount)" />
+                    select="number(ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/hrextac:HRFISK20Data/hrextac:HRLegalMonetaryTotal/cbc:TaxExclusiveAmount)" />
                   <xsl:variable name="outOfScope"
-                    select="number(n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n1:OutOfScopeOfVATAmount)" />
+                    select="number(ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/hrextac:HRFISK20Data/hrextac:HRLegalMonetaryTotal/hrextac:OutOfScopeOfVATAmount)" />
                   <xsl:value-of select="format-number($taxExcl + $outOfScope, '#,##0.00')" />
                   <xsl:text> </xsl:text>
                   <xsl:call-template name="currency-symbol">
                     <xsl:with-param name="code"
-                      select="n4:UBLExtensions/n4:UBLExtension/n4:ExtensionContent/n1:HRFISK20Data/n1:HRLegalMonetaryTotal/n3:TaxExclusiveAmount/@currencyID" />
+                      select="ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/hrextac:HRFISK20Data/hrextac:HRLegalMonetaryTotal/cbc:TaxExclusiveAmount/@currencyID" />
                   </xsl:call-template>
                 </div>
 
@@ -475,34 +474,34 @@
                 <div>
                   <strong>Bez PDV-a: </strong>
                   <xsl:value-of
-                    select="format-number(number(n2:LegalMonetaryTotal/n3:TaxExclusiveAmount), '#,##0.00')" />
+                    select="format-number(number(cac:LegalMonetaryTotal/cbc:TaxExclusiveAmount), '#,##0.00')" />
                   <xsl:text> </xsl:text>
                   <xsl:call-template name="currency-symbol">
                     <xsl:with-param name="code"
-                      select="n2:LegalMonetaryTotal/n3:TaxExclusiveAmount/@currencyID" />
+                      select="cac:LegalMonetaryTotal/cbc:TaxExclusiveAmount/@currencyID" />
                   </xsl:call-template>
                 </div>
 
                 <div>
                   <strong>S PDV-om: </strong>
                   <xsl:value-of
-                    select="format-number(number(n2:LegalMonetaryTotal/n3:TaxInclusiveAmount), '#,##0.00')" />
+                    select="format-number(number(cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount), '#,##0.00')" />
                   <xsl:text> </xsl:text>
                   <xsl:call-template name="currency-symbol">
                     <xsl:with-param name="code"
-                      select="n2:LegalMonetaryTotal/n3:TaxInclusiveAmount/@currencyID" />
+                      select="cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount/@currencyID" />
                   </xsl:call-template>
                 </div>
 
-                <xsl:if test="n2:LegalMonetaryTotal/n3:PrepaidAmount">
+                <xsl:if test="cac:LegalMonetaryTotal/cbc:PrepaidAmount">
                   <div>
                     <strong>Unaprijed plaćen iznos: </strong>
                     <xsl:value-of
-                      select="format-number(number(n2:LegalMonetaryTotal/n3:PrepaidAmount), '#,##0.00')" />
+                      select="format-number(number(cac:LegalMonetaryTotal/cbc:PrepaidAmount), '#,##0.00')" />
                     <xsl:text> </xsl:text>
                     <xsl:call-template name="currency-symbol">
                       <xsl:with-param name="code"
-                        select="n2:LegalMonetaryTotal/n3:PrepaidAmount/@currencyID" />
+                        select="cac:LegalMonetaryTotal/cbc:PrepaidAmount/@currencyID" />
                     </xsl:call-template>
                   </div>
                 </xsl:if>
@@ -512,11 +511,11 @@
                     <xsl:value-of select="$totalLabel" />
                   </strong>
                   <xsl:value-of
-                    select="format-number(number(n2:LegalMonetaryTotal/n3:PayableAmount), '#,##0.00')" />
+                    select="format-number(number(cac:LegalMonetaryTotal/cbc:PayableAmount), '#,##0.00')" />
                   <xsl:text> </xsl:text>
                   <xsl:call-template name="currency-symbol">
                     <xsl:with-param name="code"
-                      select="n2:LegalMonetaryTotal/n3:PayableAmount/@currencyID" />
+                      select="cac:LegalMonetaryTotal/cbc:PayableAmount/@currencyID" />
                   </xsl:call-template>
                 </div>
               </xsl:otherwise>
@@ -530,23 +529,23 @@
               <tr>
                 <th>Način plaćanja</th>
                 <td>
-                  <xsl:value-of select="n2:PaymentMeans/n3:PaymentMeansCode" />
+                  <xsl:value-of select="cac:PaymentMeans/cbc:PaymentMeansCode" />
                 </td>
               </tr>
               <tr>
                 <th>Napomena</th>
                 <td>
-                  <xsl:value-of select="n2:PaymentMeans/n3:InstructionNote" />
+                  <xsl:value-of select="cac:PaymentMeans/cbc:InstructionNote" />
                 </td>
               </tr>
-              <xsl:for-each select="n4:UBLExtensions/n4:UBLExtension">
+              <xsl:for-each select="ext:UBLExtensions/ext:UBLExtension">
                 <xsl:if
-                  test="n4:ExtensionContent/n1:HRFISK20Data/n1:HRObracunPDVPoNaplati">
+                  test="ext:ExtensionContent/hrextac:HRFISK20Data/hrextac:HRObracunPDVPoNaplati">
                   <tr>
                     <th>Obračun PDV-a po naplati:</th>
                     <td>
                       <xsl:value-of
-                        select="n4:ExtensionContent/n1:HRFISK20Data/n1:HRObracunPDVPoNaplati" />
+                        select="ext:ExtensionContent/hrextac:HRFISK20Data/hrextac:HRObracunPDVPoNaplati" />
                     </td>
                   </tr>
                 </xsl:if>
@@ -554,13 +553,13 @@
               <tr>
                 <th>Poziv na broj</th>
                 <td>
-                  <xsl:value-of select="n2:PaymentMeans/n3:PaymentID" />
+                  <xsl:value-of select="cac:PaymentMeans/cbc:PaymentID" />
                 </td>
               </tr>
               <tr>
                 <th>IBAN primatelja</th>
                 <td>
-                  <xsl:value-of select="n2:PaymentMeans/n2:PayeeFinancialAccount/n3:ID" />
+                  <xsl:value-of select="cac:PaymentMeans/cac:PayeeFinancialAccount/cbc:ID" />
                 </td>
               </tr>
             </table>
@@ -573,24 +572,24 @@
             <tr>
               <th>Prilagodba (CustomizationID)</th>
               <td>
-                <xsl:value-of select="n3:CustomizationID" />
+                <xsl:value-of select="cbc:CustomizationID" />
               </td>
             </tr>
             <tr>
               <th>Profil (ProfileID)</th>
               <td>
-                <xsl:value-of select="n3:ProfileID" />
+                <xsl:value-of select="cbc:ProfileID" />
               </td>
             </tr>
-            <xsl:if test="n3:UUID">
+            <xsl:if test="cbc:UUID">
               <tr>
                 <th>UUID</th>
                 <td>
-                  <xsl:value-of select="n3:UUID" />
+                  <xsl:value-of select="cbc:UUID" />
                 </td>
               </tr>
             </xsl:if>
-            <xsl:if test="n4:UBLExtensions">
+            <xsl:if test="ext:UBLExtensions">
               <tr>
                 <th>Digitalni potpis</th>
                 <td>Prisutna UBL ekstenzija potpisa</td>

@@ -2,14 +2,14 @@
 <xsl:stylesheet version="1.0"
     xmlns:n0="http://www.sap.com/eDocument/Croatia/FINA/InvoiceCreditNote/v2.0"
     xmlns:prx="urn:sap.com:proxy:QEO:/1SAI/TASA6314546397EAD185D03:758"
-    xmlns:n1="urn:mfin.gov.hr:schema:xsd:HRExtensionAggregateComponents-1"
-    xmlns:n2="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
-    xmlns:n3="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
-    xmlns:n4="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"
-    xmlns:n5="urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2"
-    xmlns:n6="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
-    xmlns:n7="urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2"
-    exclude-result-prefixes="n0 prx n1 n2 n3 n4 n5 n6 n7">
+    xmlns:hrextac="urn:mfin.gov.hr:schema:xsd:HRExtensionAggregateComponents-1"
+    xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+    xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+    xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"
+    xmlns:sig="urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2"
+    xmlns:xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+    xmlns:sac="urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2"
+    exclude-result-prefixes="n0 prx hrextac cac cbc ext sig xmlns sac">
 
     <xsl:output method="html" indent="yes" encoding="UTF-8" />
 
@@ -88,7 +88,7 @@
                 <meta charset="UTF-8"/>
                 <title>
                     Račun_
-                    <xsl:value-of select="n3:ID"/>
+                    <xsl:value-of select="cbc:ID"/>
                 </title>
                 <link rel="stylesheet" href="invoice.css"/>
             </head>
@@ -97,30 +97,32 @@
                     <h1>
                         Račun
                         <xsl:text> </xsl:text>
-                        <xsl:value-of select="n3:ID"/>
+                        <xsl:value-of select="cbc:ID"/>
                     </h1>
-                    <p>Identifikator specifikacije: </p><xsl:value-of select="n3:CustomizationID"/>
+                    <p>Identifikator specifikacije: </p><xsl:value-of select="cbc:CustomizationID"/>
                     <div>
-                        <strong>Datum izdavanja računa: </strong><xsl:value-of select="n3:IssueDate"/>
-                        <strong>Vrijeme izdavanja računa: </strong><xsl:value-of select="n3:IssueTime"/>
-                        <strong>Datum dospijeća plaćanja: </strong><xsl:value-of select="n3:DueDate"/>
-                        <strong>Tip računa: </strong><xsl:call-template name="invoice-type-label"><xsl:with-param name="code" select="n3:InvoiceTypeCode"/></xsl:call-template>
-                        <strong>Valuta: </strong><xsl:call-template name="currency-label"><xsl:with-param name="code" select="n3:DocumentCurrencyCode"/></xsl:call-template>
-                        <strong>Tip poslovnog procesa: </strong><xsl:call-template name="process-type-label"><xsl:with-param name="code" select="n3:ProfileID"/></xsl:call-template>
+                        <strong>Datum izdavanja računa: </strong><xsl:value-of select="cbc:IssueDate"/>
+                        <strong>Vrijeme izdavanja računa: </strong><xsl:value-of select="cbc:IssueTime"/>
+                        <strong>Datum dospijeća plaćanja: </strong><xsl:value-of select="cbc:DueDate"/>
+                        <strong>Tip računa: </strong><xsl:call-template name="invoice-type-label"><xsl:with-param name="code" select="cbc:InvoiceTypeCode"/></xsl:call-template>
+                        <strong>Valuta: </strong><xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template>
+                        <strong>Tip poslovnog procesa: </strong><xsl:call-template name="process-type-label"><xsl:with-param name="code" select="cbc:ProfileID"/></xsl:call-template>
                     </div>
                     <div class="OrderReference">
-                        <strong>Referenca narudžbenice: </strong><xsl:value-of select="n2:OrderReference/n3:ID"/>
-                        <strong>Referenca naloga za isporuku: </strong><xsl:value-of select="n2:OrderReference/n3:SalesOrderID"/>
+                        <strong>Referenca narudžbenice: </strong><xsl:value-of select="cac:OrderReference/cbc:ID"/>
+                        <strong>Referenca naloga za isporuku: </strong><xsl:value-of select="cac:OrderReference/cbc:SalesOrderID"/>
                     </div>
                 </div>
 
                 <div class="parties">
                     <div class="AccountingSupplierParty">
                         <h2>Prodavatelj</h2>
-                        <xsl:value-of select="n2:AccountingSupplierParty/n2:Party/n2:PartyName/n3:Name"/><br/>
-                        <xsl:value-of select="n2:AccountingSupplierParty/n2:Party/n2:PostalAddress/n3:StreetName"/><br/>
-                        <xsl:value-of select="n2:AccountingSupplierParty/n2:Party/n2:PostalAddress/n3:CityName"/><br/>
-                        <xsl:value-of select="n2:AccountingSupplierParty/n2:Party/n2:PostalAddress/n3:PostalZone"/><br/>
+                        <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PartyName/cbc:Name"/><br/>
+                        <div class="address">
+                            <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:StreetName"/><br/>
+                            <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:CityName"/><br/>
+                            <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:PostalZone"/><br/>
+                        </div>
                     </div>
                 </div>
             </body>
