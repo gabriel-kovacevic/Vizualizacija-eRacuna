@@ -1,18 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>PROD Vizualizacija</title>
   <style>
     body {
-      font-family: system-ui, sans-serif;
+      font-family: 'EON Brix Sans Regular', sans-serif;
       background: #f9fafb;
       margin: 0;
-      padding: 2rem;
     }
-    h1 { font-size: 1.8rem; margin-bottom: 1rem; }
-    input[type="file"] { margin-bottom: 1.5rem; }
-    .controls { margin-bottom: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    h1 {
+      font-family: 'EON Brix Sans Regular', sans-serif;
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    input[type="file"] {
+      margin-bottom: 1.5rem;
+    }
+
+    .header {
+      display: flex;
+      flex-direction: column;
+      padding: 2%;
+      margin: 0 0 2rem 0;
+      width: 100%;
+      height: auto;
+      background-color: #ea1b0a;
+      color: #fff;
+    }
+
+    .controls {
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
     .controls button {
       background: #16a34a;
       color: white;
@@ -21,22 +47,29 @@
       border-radius: 6px;
       cursor: pointer;
       font-size: 1rem;
+      font-family: 'EON Brix Sans Regular', sans-serif;
     }
-    .controls button:hover { background: #15803d; }
+
+    .controls button:hover {
+      background: #15803d;
+    }
+
     .result {
       display: flex;
       flex-wrap: wrap;
       gap: 1.5rem;
     }
+
     .card {
       background: #fff;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       overflow: hidden;
       flex: 1 1 600px;
       display: flex;
       flex-direction: column;
     }
+
     .card-header {
       padding: 0.5rem 1rem;
       background: #f1f5f9;
@@ -45,6 +78,7 @@
       justify-content: space-between;
       align-items: center;
     }
+
     .card-header button {
       background: #2563eb;
       color: white;
@@ -54,19 +88,50 @@
       cursor: pointer;
       font-size: 0.9rem;
     }
-    .card-header button:hover { background: #1e40af; }
-    iframe { width: 100%; height: 700px; border: none; }
+
+    .card-header button:hover {
+      background: #1e40af;
+    }
+
+    .ctrl {
+      padding: 1%;
+      margin: 2%;
+    }
+
+    iframe {
+      width: 100%;
+      padding: 1%;
+      height: 700px;
+      border: none;
+    }
+
+    @font-face {
+      font-family: EON Brix Sans Regular;
+      src: url(assets/EON_BRIXSANS-REGULAR.TTF);
+    }
+
+    @font-face {
+      font-family: EON Head;
+      src: url(assets/240502-EON_Head/EON/EON-Head.otf);
+    }
   </style>
 </head>
+
 <body>
-  <h1>UBL Invoice &amp; Credit Note Viewer</h1>
-  <p>Select one or more XML files (Invoices or Credit Notes):</p>
-  <input type="file" id="xmlFiles" accept=".xml" multiple />
-  <div class="controls">
-    <button id="printAll" disabled>️ Print All as PDF</button>
-    <button id="exportAll" disabled> Export All as ZIP (HTML)</button>
+  <div class="header">
+    <h1>Vizualizacija eRačuna</h1>
   </div>
-  <div class="result" id="result"></div>
+
+  <div class="ctrl">
+    <p>Select one or more XML files (Invoices or Credit Notes):</p>
+    <input type="file" id="xmlFiles" accept=".xml" multiple />
+    <div class="controls">
+      <button id="printAll" disabled>️ Print All as PDF</button>
+      <button id="exportAll" disabled> Export All as ZIP (HTML)</button>
+    </div>
+    <div class="result" id="result"></div>
+  </div>
+
 
   <!-- JSZip for ZIP export -->
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
@@ -81,79 +146,183 @@
     // ===== Embed this CSS into each exported HTML =====
     const embeddedCss = `
 /* === Embedded Invoice CSS === */
+/* ============================
+   GLOBAL A4 PAGE LAYOUT
+   ============================ */
+
+@font-face {
+  font-family: EON Brix Sans Regular;
+  src: url(assets/EON_BRIXSANS-REGULAR.TTF);
+}
+
 body {
-  font-family: "Helvetica Neue", Arial, sans-serif;
-  margin: 2rem auto;
-  padding: 2rem;
-  max-width: 800px;
+  font-family: 'EON Brix Sans Regular', sans-serif;
+  font-size: 13px;
+  color: #222;
   background: #fff;
-  color: #000;
-  line-height: 1.5;
+
+  /* A4 printable width (minus margins) */
+  max-width: 190mm;
+  /* 210mm - 20mm margins */
+  margin: 0 auto;
+  padding: 10mm;
+
+  box-sizing: border-box;
 }
-.invoice { border: 1px solid #ccc; padding: 2rem; background: #fff; }
-.invoice-header { border-bottom: 2px solid #000; margin-bottom: 2rem; padding-bottom: 1rem; }
-.invoice-header h1 { margin: 0; font-size: 1.8rem; }
-.invoice-header div { margin-top: 0.5rem; }
-.parties { display: flex; justify-content: space-between; margin-bottom: 2rem; gap: 2rem; }
-.parties h2 { font-size: 1rem; margin-bottom: 0.5rem; border-bottom: 1px solid #000; padding-bottom: 0.3rem; }
-.parties div { flex: 1; }
-.invoice-lines h2, .totals h2, .taxes h2, .notes h2, .section h2 {
-  font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; border-bottom: 1px solid #000; padding-bottom: 0.3rem;
+
+h1,
+h2 {
+  font-weight: 600;
+  margin: 0 0 10px 0;
 }
-.invoice-lines table, .section table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
-.invoice-lines th, .invoice-lines td, .section th, .section td {
-  text-align: left; padding: 0.5rem; border-bottom: 1px solid #ddd; font-size: 0.9rem;
+
+h1 {
+  font-size: 24px;
 }
-.invoice-lines th, .section th { background: #f9f9f9; font-weight: bold; }
-.totals { text-align: right; margin-top: 2rem; }
-.totals div { margin: 0.2rem 0; }
-.total-amount { font-size: 1.2rem; font-weight: bold; margin-top: 1rem; }
-.taxes .tax-line { margin-left: 1rem; }
-.notes { font-style: italic; margin-top: 2rem; color: #444; }
-.general-data { margin-bottom: 2rem; }
-.general-data table { width: 100%; border-collapse: collapse; }
-.general-data th, .general-data td { padding: 0.4rem; font-size: 0.9rem; border-bottom: 1px solid #eee; }
-.invoice-reference { margin-top: 1em; }
-.invoice-reference h2 {
-  font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem;
-  border-bottom: 1px solid #000; padding-bottom: 0.3rem;
+
+h2 {
+  font-size: 17px;
+  border-bottom: 2px solid #444;
+  padding-bottom: 4px;
+  margin-top: 20px;
 }
-.billing-ref { margin: 0.5em 0; padding: 0.5em; border: 1px solid #ccc; border-radius: 4px; background-color: #f9f9f9; }
-.document-description { white-space: pre-wrap; word-wrap: break-word; margin-left: 1em; }
-.general-data th { width: 35%; background: #fafafa; text-align: left; }
-.allowance-charge { background: #fdfdfd; border-left: 3px solid #999; padding: 0.5rem 1rem; margin: 1rem 0; font-size: 0.9rem; }
-.delivery { background: #fafafa; padding: 1rem; border: 1px dashed #ccc; margin-top: 1rem; font-size: 0.9rem; }
-.payment-means, .payment-terms { margin-top: 1.5rem; }
-.payment-means table, .payment-terms table { width: 100%; border-collapse: collapse; }
-.payment-means th, .payment-means td, .payment-terms th, .payment-terms td {
-  padding: 0.4rem; border-bottom: 1px solid #eee; font-size: 0.9rem;
+
+/* ============================
+   INVOICE HEADER
+   ============================ */
+
+.invoice-header {
+  border-bottom: 2px solid #000;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
 }
-.payment-means th, .payment-terms th { width: 30%; background: #f9f9f9; text-align: left; }
-.additional-docs { margin-top: 2rem; border-top: 1px solid #ccc; padding-top: 1rem; font-size: 0.9rem; }
-.additional-docs p { margin: 0.3rem 0; }
-.credit-note h1::after { content: " (Credit Note)"; font-size: 0.8rem; color: #666; }
-.section { margin-top: 2rem; }
-.section table { margin-top: 0.5rem; }
-.highlight { font-weight: bold; color: #222; }
+
+/* ============================
+   SELLER & BUYER GRID (A4 WIDE)
+   ============================ */
+
+.parties {
+  display: flex;
+  justify-content: space-between;
+  gap: 10mm;
+  margin-top: 15px;
+}
+
+.parties>div {
+  flex: 1;
+  padding: 10px;
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+/* ============================
+   DELIVERY INFO
+   ============================ */
+
+.Delivery {
+  margin-top: 18px;
+  padding: 10px;
+  background-color: #f3f3f3;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+/* ============================
+   INVOICE TABLE (A4 width)
+   ============================ */
+
+.InvoiceLines {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+.InvoiceLines th {
+  background-color: #eee;
+  border-bottom: 2px solid #555;
+  padding: 6px;
+  text-align: left;
+}
+
+.InvoiceLines td {
+  border-bottom: 1px solid #ddd;
+  padding: 6px;
+}
+
+.InvoiceLines tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.InvoiceLines tr:hover {
+  background-color: #f0f0f0;
+}
+
+.InvoiceLines td:nth-child(5),
+.InvoiceLines td:nth-child(6),
+.InvoiceLines td:nth-child(7),
+.InvoiceLines td:nth-child(8) {
+  text-align: right;
+}
+
+/* ============================
+   TOTALS BOX
+   ============================ */
+
+.TaxTotal {
+  margin-top: 25px;
+  padding: 12px;
+  background: #f2f6ff;
+  border: 1px solid #c8d9ff;
+  border-radius: 3px;
+}
+
+.TaxTotal strong {
+  display: inline-block;
+  width: 220px;
+  font-size: 13px;
+}
+
+/* ============================
+   PRINT (A4) SETTINGS
+   ============================ */
+
+@page {
+  size: A4;
+  margin: 12mm;
+  /* Typical EU invoice margins */
+}
+
 @media print {
-  body { margin: 0; padding: 0; background: none; }
-  .invoice { border: none; padding: 0; }
-  .parties { flex-direction: row; }
-  .invoice-header, .invoice-lines, .totals, .notes, .taxes, .section, .allowance-charge,
-  .payment-means, .payment-terms, .additional-docs { page-break-inside: avoid; }
-}
-@media print {
-  @page { size: A4; margin: 10mm; }
-  html, body { width: 210mm; height: 297mm; margin: 0 auto; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  body { padding: 0; font-size: 0.9rem; line-height: 1.3; }
-  .invoice { margin: 0 auto; border: none; padding: 0; box-shadow: none; background: #fff; page-break-inside: avoid; break-inside: avoid; }
-  table, tr, td, th, div, section { page-break-inside: avoid; break-inside: avoid; }
-  .section { margin-top: 1rem; }
+
+  body {
+    margin: 0;
+    padding: 0;
+    max-width: none;
+  }
+
+  .invoice-header,
+  .parties,
+  .Delivery,
+  .InvoiceLines,
+  .TaxTotal {
+    page-break-inside: avoid !important;
+  }
+
+  .InvoiceLines tr {
+    page-break-inside: avoid !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
 }
 `;
 
     // Load XSL once
-    fetch("ubl-invoice.xsl")
+    fetch("invoice-sap.xsl")
       .then(r => r.text())
       .then(txt => {
         const parser = new DOMParser();
@@ -254,4 +423,5 @@ body {
     exportAllBtn.addEventListener("click", exportAll);
   </script>
 </body>
+
 </html>
