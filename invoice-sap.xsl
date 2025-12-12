@@ -100,6 +100,12 @@
         </xsl:choose>
     </xsl:template>
 
+    <!-- Funkcija za uklanjanje slova iz OIBa (CompanyID) -->
+     <xsl:template name="strip-oib-letters">
+        <xsl:param name="oib" />
+        <xsl:value-of select="substring($oib, 3)"/>
+    </xsl:template>
+
     <!-- Template za račun -->
     <xsl:template match="/ubl-inv:Invoice">
             <html>
@@ -137,7 +143,7 @@
                             <h2>Prodavatelj</h2>
                             <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PartyName/cbc:Name"/><br/>
                             <div class="PartyTaxScheme">
-                                <strong>OIB: </strong><xsl:value-of select="translate('HR12345667789', 'HR', '')"/>
+                                <strong>OIB: </strong><xsl:call-template name="strip-oib-letters"><xsl:with-param name="oib" select="cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID"/></xsl:call-template>
                             </div>                            
                             <div class="PostalAddress">
                                 <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:StreetName"/><br/>
