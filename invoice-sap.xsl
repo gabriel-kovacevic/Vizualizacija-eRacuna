@@ -187,16 +187,57 @@
                     </div>
                     <div class="InvoiceLine">
                         <h2>Stavke računa</h2>
-                        <xsl:for-each select="cac:InvoiceLine">
-                            <div class="LineItem">
-                                <strong>Identifikator stavke računa: </strong><xsl:value-of select="cbc:ID"/><br/>
-                                <strong>Naziv stavke: </strong><xsl:value-of select="cac:Item/cbc:Name"/><br/>
-                                <strong>Količina: </strong><xsl:value-of select="cbc:InvoicedQuantity"/><xsl:text> </xsl:text><xsl:call-template name="unit-label"><xsl:with-param name="code" select="cbc:InvoicedQuantity/@unitCode"/></xsl:call-template><br/>
-                                <strong>Cijena po jedinici mjere: </strong><xsl:value-of select="cac:Price/cbc:PriceAmount"/> <xsl:call-template name="currency-label"><xsl:with-param name="code" select="../cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
-                                <strong>Ukupna cijena stavke bez PDV-a: </strong><xsl:value-of select="cbc:LineExtensionAmount"/> <xsl:call-template name="currency-label"><xsl:with-param name="code" select="../cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
-                            </div>
-                            <hr/>
-                        </xsl:for-each>
+                        <table class="InvoiceLines" border="1" cellspacing="0" cellpadding="4">
+                            <thead>
+                                <tr>
+                                    <th>Identifikator stavke</th>
+                                    <th>Prodavateljev ID artikla</th>
+                                    <th>Klasifikacijski kod</th>
+                                    <th>Naziv stavke</th>
+                                    <th>Količina</th>
+                                    <th>Cijena/j.m.</th>
+                                    <th>Ukupno bez PDV-a</th>
+                                </tr>
+                            </thead>
+                        
+                            <tbody>
+                                <xsl:for-each select="cac:InvoiceLine">
+                                    <tr>
+                                        <td><xsl:value-of select="cbc:ID"/></td>
+                                        <td>
+                                            <xsl:value-of select="cac:Item/cac:SellersItemIdentification/cbc:ID"/>
+                                        </td>
+                                        <td>
+                                            <xsl:value-of select="cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode"/>
+                                        </td>
+                                        <td>
+                                            <xsl:value-of select="cac:Item/cbc:Name"/>
+                                        </td>
+                                        <td>
+                                            <xsl:value-of select="cbc:InvoicedQuantity"/>
+                                            <xsl:text> </xsl:text>
+                                            <xsl:call-template name="unit-label">
+                                                <xsl:with-param name="code" select="cbc:InvoicedQuantity/@unitCode"/>
+                                            </xsl:call-template>
+                                        </td>
+                                        <td>
+                                            <xsl:value-of select="cac:Price/cbc:PriceAmount"/>
+                                            <xsl:text> </xsl:text>
+                                            <xsl:call-template name="currency-label">
+                                                <xsl:with-param name="code" select="../cbc:DocumentCurrencyCode"/>
+                                            </xsl:call-template>
+                                        </td>
+                                        <td>
+                                            <xsl:value-of select="cbc:LineExtensionAmount"/>
+                                            <xsl:text> </xsl:text>
+                                            <xsl:call-template name="currency-label">
+                                                <xsl:with-param name="code" select="../cbc:DocumentCurrencyCode"/>
+                                            </xsl:call-template>
+                                        </td>
+                                    </tr>
+                                </xsl:for-each>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="TaxTotal">
                         <h2>PDV</h2>
