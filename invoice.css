@@ -2,34 +2,41 @@
    GLOBAL A4 PAGE LAYOUT
    ============================ */
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 13px;
-    color: #222;
-    background: #fff;
-
-    /* A4 printable width (minus margins) */
-    max-width: 190mm;            /* 210mm - 20mm margins */
-    margin: 0 auto;
-    padding: 10mm;
-
-    box-sizing: border-box;
+@font-face {
+  font-family: EON Brix Sans Regular;
+  src: url(assets/EON_BRIXSANS-REGULAR.TTF);
 }
 
-h1, h2 {
-    font-weight: 600;
-    margin: 0 0 10px 0;
+body {
+  font-family: 'EON Brix Sans Regular', sans-serif;
+  font-size: 13px;
+  color: #222;
+  background: #fff;
+
+  /* A4 printable width (minus margins) */
+  max-width: 190mm;
+  /* 210mm - 20mm margins */
+  margin: 0 auto;
+  padding: 10mm;
+
+  box-sizing: border-box;
+}
+
+h1,
+h2 {
+  font-weight: 600;
+  margin: 0 0 10px 0;
 }
 
 h1 {
-    font-size: 24px;
+  font-size: 24px;
 }
 
 h2 {
-    font-size: 17px;
-    border-bottom: 2px solid #444;
-    padding-bottom: 4px;
-    margin-top: 20px;
+  font-size: 17px;
+  border-bottom: 2px solid #444;
+  padding-bottom: 4px;
+  margin-top: 20px;
 }
 
 /* ============================
@@ -37,9 +44,9 @@ h2 {
    ============================ */
 
 .invoice-header {
-    border-bottom: 2px solid #000;
-    padding-bottom: 12px;
-    margin-bottom: 20px;
+  border-bottom: 2px solid #000;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
 }
 
 /* ============================
@@ -47,18 +54,18 @@ h2 {
    ============================ */
 
 .parties {
-    display: flex;
-    justify-content: space-between;
-    gap: 10mm;
-    margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10mm;
+  margin-top: 15px;
 }
 
-.parties > div {
-    flex: 1;
-    padding: 10px;
-    background: #f8f8f8;
-    border: 1px solid #ddd;
-    border-radius: 3px;
+.parties>div {
+  flex: 1;
+  padding: 10px;
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 3px;
 }
 
 /* ============================
@@ -66,11 +73,11 @@ h2 {
    ============================ */
 
 .Delivery {
-    margin-top: 18px;
-    padding: 10px;
-    background-color: #f3f3f3;
-    border: 1px solid #ddd;
-    border-radius: 3px;
+  margin-top: 18px;
+  padding: 10px;
+  background-color: #f3f3f3;
+  border: 1px solid #ddd;
+  border-radius: 3px;
 }
 
 /* ============================
@@ -78,37 +85,37 @@ h2 {
    ============================ */
 
 .InvoiceLines {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 12px;
-    font-size: 13px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 13px;
 }
 
 .InvoiceLines th {
-    background-color: #eee;
-    border-bottom: 2px solid #555;
-    padding: 6px;
-    text-align: left;
+  background-color: #eee;
+  border-bottom: 2px solid #555;
+  padding: 6px;
+  text-align: left;
 }
 
 .InvoiceLines td {
-    border-bottom: 1px solid #ddd;
-    padding: 6px;
+  border-bottom: 1px solid #ddd;
+  padding: 6px;
 }
 
 .InvoiceLines tr:nth-child(even) {
-    background-color: #fafafa;
+  background-color: #fafafa;
 }
 
 .InvoiceLines tr:hover {
-    background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
 
 .InvoiceLines td:nth-child(5),
 .InvoiceLines td:nth-child(6),
 .InvoiceLines td:nth-child(7),
 .InvoiceLines td:nth-child(8) {
-    text-align: right;
+  text-align: right;
 }
 
 /* ============================
@@ -116,17 +123,17 @@ h2 {
    ============================ */
 
 .TaxTotal {
-    margin-top: 25px;
-    padding: 12px;
-    background: #f2f6ff;
-    border: 1px solid #c8d9ff;
-    border-radius: 3px;
+  margin-top: 25px;
+  padding: 12px;
+  background: #f2f6ff;
+  border: 1px solid #c8d9ff;
+  border-radius: 3px;
 }
 
 .TaxTotal strong {
-    display: inline-block;
-    width: 220px;
-    font-size: 13px;
+  display: inline-block;
+  width: 220px;
+  font-size: 13px;
 }
 
 /* ============================
@@ -134,32 +141,33 @@ h2 {
    ============================ */
 
 @page {
-    size: A4;
-    margin: 12mm; /* Typical EU invoice margins */
+  size: A4;
+  margin: 12mm;
+  /* Typical EU invoice margins */
 }
 
 @media print {
 
-    body {
-        margin: 0;
-        padding: 0;
-        max-width: none;
-    }
+  body {
+    margin: 0;
+    padding: 0;
+    max-width: none;
+  }
 
-    .invoice-header,
-    .parties,
-    .Delivery,
-    .InvoiceLines,
-    .TaxTotal {
-        page-break-inside: avoid !important;
-    }
+  .invoice-header,
+  .parties,
+  .Delivery,
+  .InvoiceLines,
+  .TaxTotal {
+    page-break-inside: avoid !important;
+  }
 
-    .InvoiceLines tr {
-        page-break-inside: avoid !important;
-    }
+  .InvoiceLines tr {
+    page-break-inside: avoid !important;
+  }
 
-    * {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-    }
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
 }
