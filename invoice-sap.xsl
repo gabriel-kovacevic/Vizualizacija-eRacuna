@@ -110,6 +110,7 @@
     <xsl:template name="format-date">
         <xsl:param name="date" />
         <xsl:value-of select="concat(substring($date, 9, 2), '.', substring($date, 6, 2), '.', substring($date, 1, 4))"/>
+    </xsl:template>
 
     <!-- Template za račun -->
     <xsl:template match="/ubl-inv:Invoice">
