@@ -191,7 +191,7 @@
                             <thead>
                                 <tr>
                                     <th>ID stavke</th>
-                                    <th>Prodavateljev ID artikla</th>
+                                    <th>Šifra</th>
                                     <th>Klasifikacijski kod</th>
                                     <th>Naziv stavke</th>
                                     <th>Količina</th>
