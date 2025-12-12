@@ -187,16 +187,17 @@
                     </div>
                     <div class="InvoiceLine">
                         <h2>Stavke računa</h2>
-                        <table class="InvoiceLines" border="1" cellspacing="0" cellpadding="4">
+                        <table class="InvoiceLines">
                             <thead>
                                 <tr>
-                                    <th>Identifikator stavke</th>
+                                    <th>ID stavke</th>
                                     <th>Prodavateljev ID artikla</th>
                                     <th>Klasifikacijski kod</th>
                                     <th>Naziv stavke</th>
                                     <th>Količina</th>
+                                    <th>Cijena</th>
                                     <th>Cijena/j.m.</th>
-                                    <th>Ukupno bez PDV-a</th>
+                                    <th>Iznos bez PDV</th>
                                 </tr>
                             </thead>
                         
@@ -218,6 +219,13 @@
                                             <xsl:text> </xsl:text>
                                             <xsl:call-template name="unit-label">
                                                 <xsl:with-param name="code" select="cbc:InvoicedQuantity/@unitCode"/>
+                                            </xsl:call-template>
+                                        </td>
+                                        <td>
+                                            <xsl:value-of select="cac:price/cbc:PriceAmount"/>
+                                            <xsl:text> </xsl:text>
+                                            <xsl:call-template name="currency-label">
+                                                <xsl:with-param name="code" select="../cbc:DocumentCurrencyCode"/>
                                             </xsl:call-template>
                                         </td>
                                         <td>
