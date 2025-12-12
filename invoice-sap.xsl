@@ -185,6 +185,19 @@
                             <xsl:call-template name="country-label"><xsl:with-param name="code" select="cac:Delivery/cac:DeliveryLocation/cac:Address/cac:Country/cbc:IdentificationCode"/></xsl:call-template><br/>
                         </div>
                     </div>
+                    <div class="InvoiceLine">
+                        <h2>Stavke računa</h2>
+                        <xsl:for-each select="cac:InvoiceLine">
+                            <div class="LineItem">
+                                <strong>Identifikator stavke računa: </strong><xsl:value-of select="cbc:ID"/><br/>
+                                <strong>Naziv stavke: </strong><xsl:value-of select="cac:Item/cbc:Name"/><br/>
+                                <strong>Količina: </strong><xsl:value-of select="cbc:InvoicedQuantity"/><xsl:text> </xsl:text><xsl:call-template name="unit-label"><xsl:with-param name="code" select="cbc:InvoicedQuantity/@unitCode"/></xsl:call-template><br/>
+                                <strong>Cijena po jedinici mjere: </strong><xsl:value-of select="cac:Price/cbc:PriceAmount"/> <xsl:call-template name="currency-label"><xsl:with-param name="code" select="../cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
+                                <strong>Ukupna cijena stavke bez PDV-a: </strong><xsl:value-of select="cbc:LineExtensionAmount"/> <xsl:call-template name="currency-label"><xsl:with-param name="code" select="../cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
+                            </div>
+                            <hr/>
+                        </xsl:for-each>
+                    </div>
                     <div class="TaxTotal">
                         <h2>PDV</h2>
                         <strong>Ukupno neto stavke računa: </strong><xsl:value-of select="cac:LegalMonetaryTotal/cbc:LineExtensionAmount"/> <xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
