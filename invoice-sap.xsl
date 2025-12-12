@@ -145,7 +145,6 @@
                             <strong>Referenca naloga za isporuku: </strong><xsl:value-of select="cac:OrderReference/cbc:SalesOrderID"/>
                         </div>
                     </div>
-
                     <div class="parties">
                         <div class="AccountingSupplierParty">
                             <h2>Prodavatelj</h2>
@@ -197,9 +196,10 @@
                                     <th>Količina</th>
                                     <th>Cijena/j.m.</th>
                                     <th>Iznos bez PDV</th>
+                                    <th>% PDV</th>
+                                    <th>Kod kategorije PDV</th>
                                 </tr>
                             </thead>
-                        
                             <tbody>
                                 <xsl:for-each select="cac:InvoiceLine">
                                     <tr>
@@ -233,6 +233,13 @@
                                             <xsl:call-template name="currency-label">
                                                 <xsl:with-param name="code" select="../cbc:DocumentCurrencyCode"/>
                                             </xsl:call-template>
+                                        </td>
+                                        <td>
+                                            <xsl:value-of select="cac:Item/cac:ClassifiedTaxCategory/cbc:Percent"/>
+                                            <xsl:text>%</xsl:text>
+                                        </td>
+                                        <td>
+                                            <xsl:value-of select="cac:Item/cac:ClassifiedTaxCategory/cbc:ID"/>
                                         </td>
                                     </tr>
                                 </xsl:for-each>
