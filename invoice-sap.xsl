@@ -143,7 +143,7 @@
                     <div class="parties">
                         <div class="AccountingSupplierParty">
                             <h2>Prodavatelj</h2>
-                            <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PartyName/cbc:Name"/><br/>
+                            <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName"/><br/>
                             <div class="PartyTaxScheme">
                                 <strong>OIB: </strong><xsl:call-template name="strip-oib-letters"><xsl:with-param name="oib" select="cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID"/></xsl:call-template>
                             </div>                            
@@ -156,7 +156,7 @@
                         </div>
                         <div class="AccountingCustomerParty">
                             <h2>Kupac</h2>
-                            <xsl:value-of select="cac:AccountingCustomerParty/cac:Party/cac:PartyName/cbc:Name"/><br/>
+                            <xsl:value-of select="cac:AccountingCustomerParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName"/><br/>
                             <div class="PartyTaxScheme">
                                 <strong>OIB: </strong><xsl:call-template name="strip-oib-letters"><xsl:with-param name="oib" select="cac:AccountingCustomerParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID"/></xsl:call-template>
                             </div>                            
