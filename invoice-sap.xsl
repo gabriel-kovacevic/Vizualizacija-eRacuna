@@ -253,6 +253,9 @@
                         <strong>Ukupno bez PDV: </strong><xsl:value-of select="cac:LegalMonetaryTotal/cbc:TaxExclusiveAmount"/> <xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
                         <strong>Ukupno PDV: </strong><xsl:value-of select="cac:TaxTotal/cbc:TaxAmount"/> <xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
                         <strong>Ukupno s PDV: </strong><xsl:value-of select="cac:LegalMonetaryTotal/cbc:PayableAmount"/> <xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
+                        <xsl:if test="cac:InvoiceLine/cac:Item/cac:ClassifiedTaxCategory/cbc:TaxExemptionReason">
+                            <strong>Razlog prijenosa porezne obveze: </strong><xsl:value-of select="cac:InvoiceLine/cac:Item/cac:ClassifiedTaxCategory/cbc:TaxExemptionReason"/>
+                        </xsl:if>
                     </div>
                 </body>
             </html>
