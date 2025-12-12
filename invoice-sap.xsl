@@ -106,6 +106,11 @@
         <xsl:value-of select="substring($oib, 3)"/>
     </xsl:template>
 
+    <!-- Pretvaranje datuma -->
+    <xsl:template name="format-date">
+        <xsl:param name="date" />
+        <xsl:value-of select="concat(substring($date, 9, 2), '.', substring($date, 6, 2), '.', substring($date, 1, 4))"/>
+
     <!-- Template za račun -->
     <xsl:template match="/ubl-inv:Invoice">
             <html>
@@ -125,13 +130,13 @@
                         </h1>
                         <strong>Identifikator specifikacije: </strong><xsl:value-of select="cbc:CustomizationID"/>
                         <div>
-                            <strong>Datum izdavanja računa: </strong><xsl:value-of select="cbc:IssueDate"/><br/>
+                            <strong>Datum izdavanja računa: </strong><xsl:call-template name="format-date"><xsl:with-param name="date" select="cbc:IssueDate"/></xsl:call-template><br/>
                             <strong>Vrijeme izdavanja računa: </strong><xsl:value-of select="cbc:IssueTime"/><br/>
-                            <strong>Datum dospijeća plaćanja: </strong><xsl:value-of select="cbc:DueDate"/><br/>
+                            <strong>Datum dospijeća plaćanja: </strong><xsl:call-template name="format-date"><xsl:with-param name="date" select="cbc:DueDate"/></xsl:call-template><br/>
                             <strong>Tip računa: </strong><xsl:call-template name="invoice-type-label"><xsl:with-param name="code" select="cbc:InvoiceTypeCode"/></xsl:call-template><br/>
                             <strong>Valuta: </strong><xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
                             <strong>Tip poslovnog procesa: </strong><xsl:call-template name="process-type-label"><xsl:with-param name="code" select="cbc:ProfileID"/></xsl:call-template><br/>
-                            <strong>Oznaka operatera: </strong><xsl:value-of select="cac:AccountingSupplierParty/cac:SellerContact/cbc:Name"/>
+                            <strong>Oznaka operatera: </strong><xsl:value-of select="cac:AccountingSupplierParty/cac:SellerContact/cbc:Name"/><br/>
                             <strong>OIB operatera: </strong><xsl:value-of select="cac:AccountingSupplierParty/cac:SellerContact/cbc:ID"/>
                         </div>
                         <div class="OrderReference">
@@ -165,6 +170,17 @@
                                 <xsl:value-of select="cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cbc:CityName"/><br/>
                                 <xsl:value-of select="cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cbc:PostalZone"/><br/>
                                 <xsl:call-template name="country-label"><xsl:with-param name="code" select="cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cac:Country/cbc:IdentificationCode"/></xsl:call-template><br/>
+                            </div>
+                        </div>
+                        <div class="Delivery">
+                            <h2>Isporuka</h2>
+                            <strong>Stvarni datum isporuke: </strong><xsl:call-template name="format-date"><xsl:with-param name="date" select="cac:Delivery/cbc:ActualDeliveryDate"/></xsl:call-template><br/>
+                            <div class="DeliveryLocation">
+                                <strong>Adresa isporuke: </strong><br/>
+                                <xsl:value-of select="cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:StreetName"/><br/>
+                                <xsl:value-of select="cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:CityName"/><br/>
+                                <xsl:value-of select="cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:PostalZone"/><br/>
+                                <xsl:call-template name="country-label"><xsl:with-param name="code" select="cac:Delivery/cac:DeliveryLocation/cac:Address/cac:Country/cbc:IdentificationCode"/></xsl:call-template><br/>
                             </div>
                         </div>
                     </div>
