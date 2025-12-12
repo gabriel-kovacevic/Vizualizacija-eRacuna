@@ -131,6 +131,8 @@
                             <strong>Tip računa: </strong><xsl:call-template name="invoice-type-label"><xsl:with-param name="code" select="cbc:InvoiceTypeCode"/></xsl:call-template><br/>
                             <strong>Valuta: </strong><xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
                             <strong>Tip poslovnog procesa: </strong><xsl:call-template name="process-type-label"><xsl:with-param name="code" select="cbc:ProfileID"/></xsl:call-template><br/>
+                            <strong>Oznaka operatera: </strong><xsl:value-of select="cac:AccountingSupplierParty/cac:SellerContact/cbc:Name"/>
+                            <strong>OIB operatera: </strong><xsl:value-of select="cac:AccountingSupplierParty/cac:SellerContact/cbc:ID"/>
                         </div>
                         <div class="OrderReference">
                             <strong>Referenca narudžbenice: </strong><xsl:value-of select="cac:OrderReference/cbc:ID"/><br/>
@@ -150,6 +152,19 @@
                                 <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:CityName"/><br/>
                                 <xsl:value-of select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:PostalZone"/><br/>
                                 <xsl:call-template name="country-label"><xsl:with-param name="code" select="cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cac:Country/cbc:IdentificationCode"/></xsl:call-template><br/>
+                            </div>
+                        </div>
+                        <div class="AccountingCustomerParty">
+                            <h2>Kupac</h2>
+                            <xsl:value-of select="cac:AccountingCustomerParty/cac:Party/cac:PartyName/cbc:Name"/><br/>
+                            <div class="PartyTaxScheme">
+                                <strong>OIB: </strong><xsl:call-template name="strip-oib-letters"><xsl:with-param name="oib" select="cac:AccountingCustomerParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID"/></xsl:call-template>
+                            </div>                            
+                            <div class="PostalAddress">
+                                <xsl:value-of select="cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cbc:StreetName"/><br/>
+                                <xsl:value-of select="cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cbc:CityName"/><br/>
+                                <xsl:value-of select="cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cbc:PostalZone"/><br/>
+                                <xsl:call-template name="country-label"><xsl:with-param name="code" select="cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cac:Country/cbc:IdentificationCode"/></xsl:call-template><br/>
                             </div>
                         </div>
                     </div>
