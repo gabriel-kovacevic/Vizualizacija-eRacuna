@@ -173,17 +173,24 @@
                                 <xsl:call-template name="country-label"><xsl:with-param name="code" select="cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cac:Country/cbc:IdentificationCode"/></xsl:call-template><br/>
                             </div>
                         </div>
-                        <div class="Delivery">
-                            <h2>Isporuka</h2>
-                            <strong>Stvarni datum isporuke: </strong><xsl:call-template name="format-date"><xsl:with-param name="date" select="cac:Delivery/cbc:ActualDeliveryDate"/></xsl:call-template><br/>
-                            <div class="DeliveryLocation">
-                                <strong>Adresa isporuke: </strong><br/>
-                                <xsl:value-of select="cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:StreetName"/><br/>
-                                <xsl:value-of select="cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:CityName"/><br/>
-                                <xsl:value-of select="cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:PostalZone"/><br/>
-                                <xsl:call-template name="country-label"><xsl:with-param name="code" select="cac:Delivery/cac:DeliveryLocation/cac:Address/cac:Country/cbc:IdentificationCode"/></xsl:call-template><br/>
-                            </div>
+                    </div>
+                    <div class="Delivery">
+                        <h2>Isporuka</h2>
+                        <strong>Stvarni datum isporuke: </strong><xsl:call-template name="format-date"><xsl:with-param name="date" select="cac:Delivery/cbc:ActualDeliveryDate"/></xsl:call-template><br/>
+                        <div class="DeliveryLocation">
+                            <strong>Adresa isporuke: </strong><br/>
+                            <xsl:value-of select="cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:StreetName"/><br/>
+                            <xsl:value-of select="cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:CityName"/><br/>
+                            <xsl:value-of select="cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:PostalZone"/><br/>
+                            <xsl:call-template name="country-label"><xsl:with-param name="code" select="cac:Delivery/cac:DeliveryLocation/cac:Address/cac:Country/cbc:IdentificationCode"/></xsl:call-template><br/>
                         </div>
+                    </div>
+                    <div class="TaxTotal">
+                        <h2>PDV</h2>
+                        <strong>Ukupno neto stavke računa: </strong><xsl:value-of select="cac:LegalMonetaryTotal/cbc:LineExtensionAmount"/> <xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
+                        <strong>Ukupno bez PDV: </strong><xsl:value-of select="cac:LegalMonetaryTotal/cbc:TaxExclusiveAmount"/> <xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
+                        <strong>Ukupno PDV: </strong><xsl:value-of select="cac:TaxTotal/cbc:TaxAmount"/> <xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
+                        <strong>Ukupno s PDV: </strong><xsl:value-of select="cac:LegalMonetaryTotal/cbc:PayableAmount"/> <xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
                     </div>
                 </body>
             </html>
