@@ -40,7 +40,7 @@
     }
 
     .controls button {
-      background: #16a34a;
+      background: #ea1b0a;
       color: white;
       border: none;
       padding: 0.5rem 1rem;
@@ -80,7 +80,7 @@
     }
 
     .card-header button {
-      background: #2563eb;
+      background: #ea1b0a;
       color: white;
       border: none;
       padding: 0.3rem 0.7rem;
@@ -90,7 +90,7 @@
     }
 
     .card-header button:hover {
-      background: #1e40af;
+      background: #ea1b0a;
     }
 
     .ctrl {
@@ -122,12 +122,17 @@
     <h1>Vizualizacija eRačuna</h1>
   </div>
 
+  <div class="upute">
+    <h1>Kako koristiti?</h1>
+    <p>Pritiskom na gumb Select one or more XML files, otvorit će se dijalog za upload XML dokumenata. Kad odaberete XML dokumente računa koje želite vizualizirati, automatski će se pojaviti vizualizacija svakog od računa. Pritiskom na gumb Print All as PDF otvorit će se print dijalog za svaki od računa. Ako ih želite spremiti u PDF formatu, odaberite Save as PDF ili Microsoft Print to PDF kao printer. Pritiskom na gumb Export All as HTML preuzeti ćete sve vizualizirane račune u ZIP datoteci u HTML formatu. Osim preuzimanja svih računa, možete preuzeti i pojedini vizualizirani račun pritiskom na Print as PDF gumb. Otvorit će se isti print dijalog, te je također potrebno odabrati PDF printer.</p>
+  </div>
+
   <div class="ctrl">
-    <p>Select one or more XML files (Invoices or Credit Notes):</p>
+    <p>Select one or more XML files:</p>
     <input type="file" id="xmlFiles" accept=".xml" multiple />
     <div class="controls">
       <button id="printAll" disabled>️ Print All as PDF</button>
-      <button id="exportAll" disabled> Export All as ZIP (HTML)</button>
+      <button id="exportAll" disabled> Export All as HTML</button>
     </div>
     <div class="result" id="result"></div>
   </div>
@@ -358,7 +363,7 @@ h2 {
         card.innerHTML = `
           <div class="card-header">
             <span>${file.name}</span>
-            <button>Print / Save as PDF</button>
+            <button>Print as PDF</button>
           </div>
         `;
         const iframe = document.createElement("iframe");
