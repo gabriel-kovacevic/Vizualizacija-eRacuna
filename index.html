@@ -34,6 +34,12 @@
       background-color: #ea1b0a;
       color: #fff;
     }
+    .content {
+      padding: 0 2rem 2rem 2rem;
+      display: flex;
+      flex-direction: row;
+      align-content: space-around;
+    }
 
     .controls {
       margin-bottom: 1.5rem;
@@ -139,25 +145,32 @@
     <h1>TEST Vizualizacija eRačuna</h1>
   </div>
 
-  <div class="upute">
-    <h1>Kako koristiti?</h1>
-    <p>Pritiskom na gumb <b>Select one or more XML files</b>, otvorit će se dijalog za upload XML dokumenata. Kad odaberete XML
-      dokumente računa koje želite vizualizirati, automatski će se pojaviti vizualizacija svakog od računa. Pritiskom na
-      gumb <b>Print All as PDF</b> otvorit će se print dijalog za svaki od računa.<br><br>Ako ih želite spremiti u PDF formatu,
-      odaberite <b>Save as PDF</b> ili <b>Microsoft Print to PDF</b> kao printer. Pritiskom na gumb <b>Export All as HTML</b> preuzeti ćete
-      sve vizualizirane račune u ZIP datoteci u HTML formatu.<br><br>Osim preuzimanja svih računa, možete preuzeti i
-      pojedini vizualizirani račun pritiskom na <b>Print as PDF</b> gumb. Otvorit će se isti print dijalog, te je također
-      potrebno odabrati PDF printer.</p>
-  </div>
-
-  <div class="ctrl">
-    <p>Select one or more XML files:</p>
-    <input type="file" id="xmlFiles" accept=".xml" multiple />
-    <div class="controls">
-      <button id="printAll" disabled>️ Print All as PDF</button>
-      <button id="exportAll" disabled> Export All as HTML</button>
+  <div class="content">
+    <div class="upute">
+      <h1>Kako koristiti?</h1>
+      <p>Pritiskom na gumb <b>Select one or more XML files</b>, otvorit će se dijalog za upload XML dokumenata. Kad
+        odaberete XML
+        dokumente računa koje želite vizualizirati, automatski će se pojaviti vizualizacija svakog od računa. Pritiskom
+        na
+        gumb <b>Print All as PDF</b> otvorit će se print dijalog za svaki od računa.<br><br>Ako ih želite spremiti u PDF
+        formatu,
+        odaberite <b>Save as PDF</b> ili <b>Microsoft Print to PDF</b> kao printer. Pritiskom na gumb <b>Export All as
+          HTML</b> preuzeti ćete
+        sve vizualizirane račune u ZIP datoteci u HTML formatu.<br><br>Osim preuzimanja svih računa, možete preuzeti i
+        pojedini vizualizirani račun pritiskom na <b>Print as PDF</b> gumb. Otvorit će se isti print dijalog, te je
+        također
+        potrebno odabrati PDF printer.</p>
     </div>
-    <div class="result" id="result"></div>
+
+    <div class="ctrl">
+      <p>Select one or more XML files:</p>
+      <input type="file" id="xmlFiles" accept=".xml" multiple />
+      <div class="controls">
+        <button id="printAll" disabled>️ Print All as PDF</button>
+        <button id="exportAll" disabled> Export All as HTML</button>
+      </div>
+      <div class="result" id="result"></div>
+    </div>
   </div>
 
 
