@@ -7,8 +7,9 @@
   <style>
     body {
       font-family: 'EON Brix Sans Regular', sans-serif;
-      background: #f9fafb;
+      background: #f8f5f2;
       margin: 0;
+      max-width: 100vw;
     }
 
     h1 {
@@ -24,12 +25,32 @@
     .header {
       display: flex;
       flex-direction: column;
-      padding: 2%;
-      margin: 0 0 2rem 0;
-      width: 100%;
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 10%;
       height: auto;
       background-color: #ea1b0a;
-      color: #fff;
+      color: #f8f5f2;
+    }
+    
+    .header h1 {
+      margin: 1rem 2rem;
+      width: fit-content;
+      font-size: 2.5rem;
+    }
+
+    .content {
+      padding: 0 0 2rem 2rem;
+      display: flex;
+      flex-direction: row;
+      align-content: flex-start;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .content h1, b {
+      color:#961482;
     }
 
     .controls {
@@ -40,8 +61,8 @@
     }
 
     .controls button {
-      background: #ea1b0a;
-      color: white;
+      background: #27a9ff;
+      color: #f8f5f2;
       border: none;
       padding: 0.5rem 1rem;
       border-radius: 6px;
@@ -51,17 +72,21 @@
     }
 
     .controls button:hover {
-      background: #15803d;
+      background: #00568f;
     }
 
     .result {
       display: flex;
+      flex-direction: row;
       flex-wrap: wrap;
-      gap: 1.5rem;
+      gap: 2rem;
+      width: 100%;
+      padding: 0 2rem 2rem 2rem;
+      box-sizing: border-box;
     }
 
     .card {
-      background: #fff;
+      background: #f8f5f2;
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       overflow: hidden;
@@ -72,15 +97,20 @@
 
     .card-header {
       padding: 0.5rem 1rem;
-      background: #f1f5f9;
+      background: #d7d0cc;
       border-bottom: 1px solid #e2e8f0;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
+    .frames {
+      display: flex;
+      flex-direction: column;
+    }
+
     .card-header button {
-      background: #ea1b0a;
+      background: #27a9ff;
       color: white;
       border: none;
       padding: 0.3rem 0.7rem;
@@ -91,7 +121,7 @@
     }
 
     .card-header button:hover {
-      background: #ea1b0a;
+      background: #00568f;
     }
 
     .ctrl {
@@ -104,10 +134,10 @@
       flex-direction: column;
       margin: 2%;
       padding: 2%;
+      max-width: 30%;
     }
 
     .upute p {
-      max-width: 50%;
       word-wrap: break-word;
       line-height: 1.5;
     }
@@ -116,6 +146,7 @@
       width: 100%;
       padding: 1%;
       height: 700px;
+      box-sizing: border-box;
       border: none;
     }
 
@@ -135,27 +166,38 @@
   <div class="header">
     <h1>Vizualizacija eRačuna</h1>
   </div>
+  <div class="frames">
+    <div class="content">
+      <div class="upute">
+        <h1>Kako koristiti?</h1>
+        <p>Pritiskom na gumb <b>Select one or more XML files</b>, otvorit će se dijalog za upload XML dokumenata. Kad
+          odaberete XML
+          dokumente računa koje želite vizualizirati, automatski će se pojaviti vizualizacija svakog od računa.
+          Pritiskom
+          na
+          gumb <b>Print All as PDF</b> otvorit će se print dijalog za svaki od računa.<br><br>Ako ih želite spremiti u
+          PDF
+          formatu,
+          odaberite <b>Save as PDF</b> ili <b>Microsoft Print to PDF</b> kao printer. Pritiskom na gumb <b>Export All as
+            HTML</b> preuzeti ćete
+          sve vizualizirane račune u ZIP datoteci u HTML formatu.<br><br>Osim preuzimanja svih računa, možete preuzeti i
+          pojedini vizualizirani račun pritiskom na <b>Print as PDF</b> gumb. Otvorit će se isti print dijalog, te je
+          također
+          potrebno odabrati PDF printer.</p>
+      </div>
 
-  <div class="upute">
-    <h1>Kako koristiti?</h1>
-    <p>Pritiskom na gumb <b>Select one or more XML files</b>, otvorit će se dijalog za upload XML dokumenata. Kad odaberete XML
-      dokumente računa koje želite vizualizirati, automatski će se pojaviti vizualizacija svakog od računa. Pritiskom na
-      gumb <b>Print All as PDF</b> otvorit će se print dijalog za svaki od računa.<br><br>Ako ih želite spremiti u PDF formatu,
-      odaberite <b>Save as PDF</b> ili <b>Microsoft Print to PDF</b> kao printer. Pritiskom na gumb <b>Export All as HTML</b> preuzeti ćete
-      sve vizualizirane račune u ZIP datoteci u HTML formatu.<br><br>Osim preuzimanja svih računa, možete preuzeti i
-      pojedini vizualizirani račun pritiskom na <b>Print as PDF</b> gumb. Otvorit će se isti print dijalog, te je također
-      potrebno odabrati PDF printer.</p>
-  </div>
-
-  <div class="ctrl">
-    <p>Select one or more XML files:</p>
-    <input type="file" id="xmlFiles" accept=".xml" multiple />
-    <div class="controls">
-      <button id="printAll" disabled>️ Print All as PDF</button>
-      <button id="exportAll" disabled> Export All as HTML</button>
+      <div class="ctrl">
+        <p>Select one or more XML files:</p>
+        <input type="file" id="xmlFiles" accept=".xml" multiple />
+        <div class="controls">
+          <button id="printAll" disabled>️ Print All as PDF</button>
+          <button id="exportAll" disabled> Export All as HTML</button>
+        </div>
+      </div>
     </div>
     <div class="result" id="result"></div>
   </div>
+
 
 
   <!-- JSZip for ZIP export -->
