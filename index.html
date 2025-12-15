@@ -67,8 +67,11 @@
 
     .result {
       display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
+      flex-direction: row;
+      gap: 2rem;
+      width: 100%;
+      padding: 0 2rem 2rem 2rem;
+      box-sizing: border-box;
     }
 
     .card {
@@ -178,9 +181,9 @@
           <button id="printAll" disabled>️ Print All as PDF</button>
           <button id="exportAll" disabled> Export All as HTML</button>
         </div>
-        <div class="result" id="result"></div>
       </div>
     </div>
+    <div class="result" id="result"></div>
   </div>
 
 
