@@ -112,6 +112,12 @@
         <xsl:value-of select="concat(substring($date, 9, 2), '.', substring($date, 6, 2), '.', substring($date, 1, 4))"/>
     </xsl:template>
 
+    <!-- Format brojeva na dvije decimale -->
+    <xsl:template name="format-number-2dec">
+        <xsl:param name="number" />
+        <xsl:value-of select="format-number($number, '0.00')"/>
+    </xsl:template>
+
     <!-- Template za račun -->
     <xsl:template match="/ubl-inv:Invoice">
             <html>
@@ -215,21 +221,27 @@
                                             <xsl:value-of select="cac:Item/cbc:Name"/>
                                         </td>
                                         <td>
-                                            <xsl:value-of select="cbc:InvoicedQuantity"/>
+                                            <xsl:call-template name="format-number-2dec">
+                                                <xsl:with-param name="number" select="cbc:InvoicedQuantity"/>
+                                            </xsl:call-template>
                                             <xsl:text> </xsl:text>
                                             <xsl:call-template name="unit-label">
                                                 <xsl:with-param name="code" select="cbc:InvoicedQuantity/@unitCode"/>
                                             </xsl:call-template>
                                         </td>
                                         <td>
-                                            <xsl:value-of select="cac:Price/cbc:PriceAmount"/>
+                                            <xsl:call-template name="format-number-2dec">
+                                                <xsl:with-param name="number" select="cac:Price/cbc:PriceAmount"/>
+                                            </xsl:call-template>
                                             <xsl:text> </xsl:text>
                                             <xsl:call-template name="currency-label">
                                                 <xsl:with-param name="code" select="../cbc:DocumentCurrencyCode"/>
                                             </xsl:call-template>
                                         </td>
                                         <td>
-                                            <xsl:value-of select="cbc:LineExtensionAmount"/>
+                                            <xsl:call-template name="format-number-2dec">
+                                                <xsl:with-param name="number" select="cbc:LineExtensionAmount"/>
+                                            </xsl:call-template>
                                             <xsl:text> </xsl:text>
                                             <xsl:call-template name="currency-label">
                                                 <xsl:with-param name="code" select="../cbc:DocumentCurrencyCode"/>
@@ -249,10 +261,10 @@
                     </div>
                     <div class="TaxTotal">
                         <h2>PDV</h2>
-                        <strong>Ukupno neto stavke računa: </strong><xsl:value-of select="cac:LegalMonetaryTotal/cbc:LineExtensionAmount"/> <xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
-                        <strong>Ukupno bez PDV: </strong><xsl:value-of select="cac:LegalMonetaryTotal/cbc:TaxExclusiveAmount"/> <xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
-                        <strong>Ukupno PDV: </strong><xsl:value-of select="cac:TaxTotal/cbc:TaxAmount"/> <xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
-                        <strong>Ukupno s PDV: </strong><xsl:value-of select="cac:LegalMonetaryTotal/cbc:PayableAmount"/> <xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
+                        <strong>Ukupno neto stavke računa: </strong><xsl:call-template name="format-number-2dec"><xsl:with-param name="number" select="cac:LegalMonetaryTotal/cbc:LineExtensionAmount"/></xsl:call-template><xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
+                        <strong>Ukupno bez PDV: </strong><xsl:call-template name="format-number-2dec"><xsl:with-param name="number" select="cac:LegalMonetaryTotal/cbc:TaxExclusiveAmount"/></xsl:call-template><xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
+                        <strong>Ukupno PDV: </strong><xsl:call-template name="format-number-2dec"><xsl:with-param name="number" select="cac:TaxTotal/cbc:TaxAmount"/></xsl:call-template><xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
+                        <strong>Ukupno s PDV: </strong><xsl:call-template name="format-number-2dec"><xsl:with-param name="number" select="cac:LegalMonetaryTotal/cbc:PayableAmount"/></xsl:call-template><xsl:call-template name="currency-label"><xsl:with-param name="code" select="cbc:DocumentCurrencyCode"/></xsl:call-template><br/>
                         <xsl:if test="cac:InvoiceLine/cac:Item/cac:ClassifiedTaxCategory/cbc:TaxExemptionReason">
                             <strong>Razlog prijenosa porezne obveze: </strong><xsl:value-of select="cac:InvoiceLine/cac:Item/cac:ClassifiedTaxCategory/cbc:TaxExemptionReason"/>
                         </xsl:if>
