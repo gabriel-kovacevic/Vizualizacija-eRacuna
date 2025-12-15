@@ -231,7 +231,7 @@
                                         </td>
                                         <td>
                                             <xsl:call-template name="format-number-2dec">
-                                                <xsl:with-param name="number" select="cbc:Price/cbc:PriceAmount"/>
+                                                <xsl:with-param name="number" select="cac:Price/cbc:PriceAmount"/>
                                             </xsl:call-template>
                                             <xsl:text> </xsl:text>
                                             <xsl:call-template name="currency-label">
