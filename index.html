@@ -24,7 +24,8 @@
 
     .header {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      justify-content: space-between;
       margin: 0;
       padding: 0;
       width: 100vw;
@@ -32,6 +33,15 @@
       height: auto;
       background-color: #ea1b0a;
       color: #f8f5f2;
+    }
+    .header a {
+      color: #f8f5f2;
+      margin: 0 1rem;
+    }
+    .contact  {
+      margin: 1rem 2rem;
+      text-align: right;
+      font-size: 1rem;
     }
     
     .header h1 {
@@ -92,6 +102,8 @@
       overflow: hidden;
       flex: 1 1 600px;
       display: flex;
+      width: fit-content;
+      box-sizing: content-box;
       flex-direction: column;
     }
 
@@ -165,6 +177,11 @@
 <body>
   <div class="header">
     <h1>Vizualizacija eRačuna</h1>
+    <div class="contact">
+      <h2>Stranicu izradili: </h2>
+      <a href="mailto:matej.pericic.external@eon.hr">Matej Peričić</a><br>
+      <a href="mailto:gabriel.kovacevic.external@eon.hr">Gabriel Kovačević</a>
+    </div>
   </div>
   <div class="frames">
     <div class="content">
