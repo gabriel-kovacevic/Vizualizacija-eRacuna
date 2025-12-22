@@ -183,6 +183,9 @@
                     <div class="Delivery">
                         <h2>Isporuka</h2>
                         <strong>Stvarni datum isporuke: </strong><xsl:call-template name="format-date"><xsl:with-param name="date" select="cac:Delivery/cbc:ActualDeliveryDate"/></xsl:call-template><br/>
+                        <xsl:if test="cac:Delivery/cac:DeliveryParty">
+                            <strong>Ime strane primatelja isporuke: </strong><xsl:value-of select="cac:Delivery/cac:DeliveryParty/cac:PartyName/cbc:Name"/><br/>
+                        </xsl:if>
                         <div class="DeliveryLocation">
                             <strong>Adresa isporuke: </strong><br/>
                             <xsl:value-of select="cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:StreetName"/><br/>
@@ -258,6 +261,12 @@
                                 </xsl:for-each>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="PaymentTerms">
+                        <h2>Uvjeti plaćanja</h2>
+                        <xsl:for-each select="cac:PaymentTerms">
+                            <strong>Opis: </strong><xsl:value-of select="cbc:Note"/><br/>
+                        </xsl:for-each>
                     </div>
                     <div class="TaxTotal">
                         <h2>PDV</h2>
