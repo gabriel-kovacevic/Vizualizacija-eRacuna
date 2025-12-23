@@ -127,7 +127,7 @@
                         Račun_
                         <xsl:value-of select="cbc:ID"/>
                     </title>
-                    <link rel="stylesheet" href="invoice.css"/>
+                    <!--<link rel="stylesheet" href="invoice.css"/>-->
                 </head>
                 <body>
                     <div class="invoice-header">
