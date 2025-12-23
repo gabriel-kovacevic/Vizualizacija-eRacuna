@@ -505,6 +505,31 @@ h2 {
     }
 
     exportAllBtn.addEventListener("click", exportAll);
+    window.addEventListener("message", e => {
+    if (!e.data || e.data.type !== "ATTACHMENT") return;
+
+    const { base64, mime, name } = e.data;
+    if (!base64) return;
+
+    const bytes = atob(base64);
+    const arr = Uint8Array.from(bytes, c => c.charCodeAt(0));
+    const blob = new Blob([arr], { type: mime || "application/octet-stream" });
+
+    const ext = (mime || "").includes("pdf") ? "pdf"
+              : mime.startsWith("image/") ? "png"
+              : "bin";
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${name || "attachment"}.${ext}`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+});
   </script>
 </body>
 
