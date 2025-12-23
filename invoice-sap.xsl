@@ -118,6 +118,12 @@
         <xsl:value-of select="format-number($number, '0.00')"/>
     </xsl:template>
 
+    <!-- Konverzija file attachmenta iz B64 -->
+     <xsl:template name="decode-attachment">
+        <xsl:param name="b64data" />
+
+    </xsl:template>
+
     <!-- Template za račun -->
     <xsl:template match="/ubl-inv:Invoice">
             <html>
@@ -281,6 +287,28 @@
                             <strong>Razlog prijenosa porezne obveze: </strong><xsl:value-of select="cac:InvoiceLine/cac:Item/cac:ClassifiedTaxCategory/cbc:TaxExemptionReason"/>
                         </xsl:if>
                     </div>
+                    <xsl:if test="cac:AdditionalDocumentReference">
+                        <div class="AdditionalDocumentReference">
+                            <h2>Dodatni dokumenti</h2>
+                            <xsl:for-each select="cac:AdditionalDocumentReference">
+                                <strong>ID dokumenta: </strong><xsl:value-of select="cbc:ID"/><br/>
+                                <strong>Opis dokumenta: </strong><xsl:value-of select="cbc:DocumentDescription"/><br/>
+                                <a>
+                                    <xsl:attribute name="href">
+                                        data:<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,
+                                        <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
+                                    </xsl:attribute>
+                                    <xsl:attribute name="type">
+                                        <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>
+                                    </xsl:attribute>
+                                    <xsl:attribute name="download">
+                                        <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@filename"/>
+                                    </xsl:attribute>
+                                    Preuzmi privitak
+                                </a>
+                            </xsl:for-each>
+                        </div>
+                    </xsl:if>
                 </body>
             </html>
         </xsl:template>
