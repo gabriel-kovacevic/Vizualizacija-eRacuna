@@ -285,17 +285,61 @@
                     <xsl:if test="cac:AdditionalDocumentReference">
                         <div class="Attachment">
                             <h2>Dodatni dokumenti</h2>
+                        
                             <xsl:for-each select="cac:AdditionalDocumentReference/cbc:Attachment">
-                                <strong>Dokument ID: </strong><xsl:value-of select="cbc:ID"/><br/>
-                                <strong>Opis: </strong><xsl:value-of select="cbc:DocumentDescription"/><br/>
-                                <strong>Vrsta privitka: </strong><xsl:value-of select="cbc:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/><br/>
-                                <strong>Privitak: </strong>
-                                <script>
-                                    document.write(atob('<xsl:value-of select="cbc:Attachment/cbc:EmbeddedDocumentBinaryObject"/>'));
-                                </script>
+                                <strong>Dokument ID: </strong>
+                                <xsl:value-of select="../cbc:ID"/><br/>
+                        
+                                <strong>Opis: </strong>
+                                <xsl:value-of select="../cbc:DocumentDescription"/><br/>
+                        
+                                <strong>Vrsta privitka: </strong>
+                                <xsl:value-of select="cbc:EmbeddedDocumentBinaryObject/@mimeCode"/><br/>
+                        
+                                <button onclick="
+                                    saveEmbeddedDocument(
+                                        '<xsl:value-of select="cbc:EmbeddedDocumentBinaryObject"/>',
+                                        '<xsl:value-of select="cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>',
+                                        '<xsl:value-of select="../cbc:ID"/>'
+                                    )">
+                                    Preuzmi privitak
+                                </button>
+                            
+                                <br/><br/>
                             </xsl:for-each>
                         </div>
                     </xsl:if>
+                    <script>
+                    function saveEmbeddedDocument(base64Data, mimeType, fileName) {
+                        if (!base64Data || base64Data.trim() === "") {
+                            console.warn("No embedded document found.");
+                            return;
+                        }
+                    
+                        // Decode Base64
+                        const byteCharacters = atob(base64Data);
+                        const byteNumbers = new Array(byteCharacters.length);
+                    
+                        for (let i = 0; i < byteCharacters.length; i++) {
+                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                        }
+                    
+                        const byteArray = new Uint8Array(byteNumbers);
+                        const blob = new Blob([byteArray], { type: mimeType || "application/octet-stream" });
+                    
+                        // Create download link
+                        const link = document.createElement("a");
+                        link.href = URL.createObjectURL(blob);
+                        link.download = fileName || "attachment";
+                        document.body.appendChild(link);
+                        link.click();
+                    
+                        // Cleanup
+                        document.body.removeChild(link);
+                        URL.revokeObjectURL(link.href);
+                    }
+                    </script>
+
                 </body>
             </html>
         </xsl:template>
