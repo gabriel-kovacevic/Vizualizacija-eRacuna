@@ -295,6 +295,7 @@
                                 <strong>Opis dokumenta: </strong><xsl:value-of select="cbc:DocumentDescription"/><br/>
                                 <a>
                                     <xsl:attribute name="href">
+                                        data:<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,
                                         <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
                                     </xsl:attribute>
                                     <xsl:attribute name="type">
