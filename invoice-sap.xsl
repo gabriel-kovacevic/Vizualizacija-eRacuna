@@ -293,14 +293,18 @@
                             <xsl:for-each select="cac:AdditionalDocumentReference">
                                 <strong>ID dokumenta: </strong><xsl:value-of select="cbc:ID"/><br/>
                                 <strong>Opis dokumenta: </strong><xsl:value-of select="cbc:DocumentDescription"/><br/>
-                                <embed>
-                                    <xsl:attribute name="src">
+                                <a>
+                                    <xsl:attribute name="href">
                                         <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
                                     </xsl:attribute>
                                     <xsl:attribute name="type">
                                         <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>
                                     </xsl:attribute>
-                                </embed>
+                                    <xsl:attribute name="download">
+                                        <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@filename"/>
+                                    </xsl:attribute>
+                                    Preuzmi privitak
+                                </a>
                             </xsl:for-each>
                         </div>
                     </xsl:if>
