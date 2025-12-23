@@ -34,16 +34,18 @@
       background-color: #ea1b0a;
       color: #f8f5f2;
     }
+
     .header a {
       color: #f8f5f2;
       margin: 0 1rem;
     }
-    .contact  {
+
+    .contact {
       margin: 1rem 2rem;
       text-align: right;
       font-size: 1rem;
     }
-    
+
     .header h1 {
       margin: 1rem 2rem;
       width: fit-content;
@@ -59,8 +61,9 @@
       width: 100%;
     }
 
-    .content h1, b {
-      color:#961482;
+    .content h1,
+    b {
+      color: #961482;
     }
 
     .controls {
@@ -505,31 +508,58 @@ h2 {
     }
 
     exportAllBtn.addEventListener("click", exportAll);
+    const ALLOWED_MIME_TYPES = {
+      "application/pdf": "pdf",
+      "image/png": "png",
+      "image/jpeg": "jpg",
+      "text/csv": "csv",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
+      "application/vnd.oasis.opendocument.spreadsheet": "ods"
+    };
+
     window.addEventListener("message", e => {
-    if (!e.data || e.data.type !== "ATTACHMENT") return;
+      if (!e.data || e.data.type !== "ATTACHMENT") return;
 
-    const { base64, mime, name } = e.data;
-    if (!base64) return;
+      const { base64, mime, name } = e.data;
 
-    const bytes = atob(base64);
-    const arr = Uint8Array.from(bytes, c => c.charCodeAt(0));
-    const blob = new Blob([arr], { type: mime || "application/octet-stream" });
+      if (!base64 || !mime) {
+        alert("Privitak nema ispravne podatke.");
+        return;
+      }
 
-    const ext = (mime || "").includes("pdf") ? "pdf"
-              : mime.startsWith("image/") ? "png"
-              : "bin";
+      // 🔒 HARD BLOCK unsupported MIME types
+      if (!ALLOWED_MIME_TYPES[mime]) {
+        alert("Vrsta privitka nije podržana:\n" + mime);
+        return;
+      }
 
-    const url = URL.createObjectURL(blob);
+      try {
+        const bytes = atob(base64);
+        const array = Uint8Array.from(bytes, c => c.charCodeAt(0));
+        const blob = new Blob([array], { type: mime });
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${name || "attachment"}.${ext}`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+        const extension = ALLOWED_MIME_TYPES[mime];
+        const fileName = (name || "attachment") + "." + extension;
+        const url = URL.createObjectURL(blob);
 
-    URL.revokeObjectURL(url);
-});
+        // Preview only PDFs & images
+        if (mime === "application/pdf" || mime.startsWith("image/")) {
+          window.open(url, "_blank");
+        } else {
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+
+        URL.revokeObjectURL(url);
+      } catch (err) {
+        console.error(err);
+        alert("Greška pri obradi privitka.");
+      }
+    });
   </script>
 </body>
 
