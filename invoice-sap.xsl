@@ -291,6 +291,7 @@
                         <div class="AdditionalDocumentReference">
                             <h2>Dodatni dokumenti</h2>
                             <xsl:for-each select="cac:AdditionalDocumentReference">
+                            <div class="Attachment">
                                 <strong>ID dokumenta: </strong><xsl:value-of select="cbc:ID"/><br/>
                                 <strong>Opis dokumenta: </strong><xsl:value-of select="cbc:DocumentDescription"/><br/>
                                 <a>
@@ -307,6 +308,7 @@
                                     Preuzmi privitak
                                 </a>
                             </xsl:for-each>
+                            </div>    
                         </div>
                     </xsl:if>
                 </body>
