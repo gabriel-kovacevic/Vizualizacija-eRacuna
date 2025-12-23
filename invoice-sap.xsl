@@ -281,42 +281,49 @@
                             <strong>Razlog prijenosa porezne obveze: </strong><xsl:value-of select="cac:InvoiceLine/cac:Item/cac:ClassifiedTaxCategory/cbc:TaxExemptionReason"/>
                         </xsl:if>
                     </div>
-
                     <xsl:if test="cac:AdditionalDocumentReference">
                         <div class="Attachment">
-                            <h2>Dodatni dokumenti</h2>
-                        
+                            <h2>Dodatni dokumenti</h2>                        
                             <xsl:for-each select="cac:AdditionalDocumentReference/cbc:Attachment">
                                 <strong>Dokument ID: </strong>
-                                <xsl:value-of select="../cbc:ID"/><br/>
-                        
+                                <xsl:value-of select="../cbc:ID"/><br/>                        
                                 <strong>Opis: </strong>
-                                <xsl:value-of select="../cbc:DocumentDescription"/><br/>
-                        
+                                <xsl:value-of select="../cbc:DocumentDescription"/><br/>                        
                                 <strong>Vrsta privitka: </strong>
                                 <xsl:value-of select="cbc:EmbeddedDocumentBinaryObject/@mimeCode"/><br/>
-                        
                                 <button onclick="
-                                    saveEmbeddedDocument(
+                                    openOrSaveEmbeddedDocument(
                                         '<xsl:value-of select="cbc:EmbeddedDocumentBinaryObject"/>',
                                         '<xsl:value-of select="cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>',
                                         '<xsl:value-of select="../cbc:ID"/>'
                                     )">
-                                    Preuzmi privitak
+                                    Otvori / Preuzmi privitak
                                 </button>
-                            
-                                <br/><br/>
+                                <hr/>
                             </xsl:for-each>
                         </div>
                     </xsl:if>
                     <script>
-                    function saveEmbeddedDocument(base64Data, mimeType, fileName) {
+                    function getExtensionFromMime(mime) {
+                        const map = {
+                            "application/pdf": "pdf",
+                            "image/png": "png",
+                            "image/jpeg": "jpg",
+                            "image/jpg": "jpg",
+                            "image/gif": "gif",
+                            "text/xml": "xml",
+                            "application/xml": "xml",
+                            "text/plain": "txt"
+                        };
+                        return map[mime] || "bin";
+                    }
+
+                    function openOrSaveEmbeddedDocument(base64Data, mimeType, fileNameBase) {
                         if (!base64Data || base64Data.trim() === "") {
-                            console.warn("No embedded document found.");
+                            alert("Privitak ne postoji.");
                             return;
                         }
                     
-                        // Decode Base64
                         const byteCharacters = atob(base64Data);
                         const byteNumbers = new Array(byteCharacters.length);
                     
@@ -327,19 +334,26 @@
                         const byteArray = new Uint8Array(byteNumbers);
                         const blob = new Blob([byteArray], { type: mimeType || "application/octet-stream" });
                     
-                        // Create download link
-                        const link = document.createElement("a");
-                        link.href = URL.createObjectURL(blob);
-                        link.download = fileName || "attachment";
-                        document.body.appendChild(link);
-                        link.click();
+                        const extension = getExtensionFromMime(mimeType);
+                        const fileName = (fileNameBase || "attachment") + "." + extension;
+                        const url = URL.createObjectURL(blob);
                     
-                        // Cleanup
-                        document.body.removeChild(link);
-                        URL.revokeObjectURL(link.href);
+                        // Preview PDFs & images
+                        if (mimeType === "application/pdf" || mimeType.startsWith("image/")) {
+                            window.open(url, "_blank");
+                        } else {
+                            // Download everything else
+                            const link = document.createElement("a");
+                            link.href = url;
+                            link.download = fileName;
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }
+                    
+                        URL.revokeObjectURL(url);
                     }
                     </script>
-
                 </body>
             </html>
         </xsl:template>
