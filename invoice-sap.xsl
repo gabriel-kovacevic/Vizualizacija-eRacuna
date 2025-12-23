@@ -311,7 +311,7 @@
                                     </xsl:attribute>
                                     <xsl:attribute name="type">
                                         <xsl:call-template name="attachment-type">
-                                            <xsl:with-param name="code" select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>
+                                            <xsl:with-param name="code" select="../cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>
                                         </xsl:call-template>
                                     </xsl:attribute>
                                     <xsl:attribute name="download">
