@@ -453,15 +453,19 @@ h2 {
         result.appendChild(card);
 
         const doc = iframe.contentDocument;
+
         if (!transformed || !transformed.documentElement) {
           console.error("XSLT transformation failed", transformed);
-          return;
+          continue;
         }
 
         doc.open();
-        doc.write("<!DOCTYPE html>");
-        doc.write(transformed.documentElement.outerHTML);
+        doc.write("<!DOCTYPE html><html>");
+        doc.write(transformed.documentElement.innerHTML);
+        doc.write("</html>");
         doc.close();
+
+
 
 
         const btn = card.querySelector("button");
