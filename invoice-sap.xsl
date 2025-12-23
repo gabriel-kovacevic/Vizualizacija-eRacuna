@@ -306,13 +306,15 @@
                                 <strong>Opis dokumenta: </strong><xsl:value-of select="cbc:DocumentDescription"/><br/>
                                 <a>
                                     <xsl:attribute name="href">
-                                        data:<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,
+                                        data:
+                                        <xsl:call-template name="attachment-type">
+                                            <xsl:with-param name="code" select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>
+                                        </xsl:call-template>
+                                        ;base64,
                                         <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
                                     </xsl:attribute>
                                     <xsl:attribute name="type">
-                                        <xsl:call-template name="attachment-type">
-                                            <xsl:with-param name="code" select="../cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>
-                                        </xsl:call-template>
+                                        <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>
                                     </xsl:attribute>
                                     <xsl:attribute name="download">
                                         <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@filename"/>
