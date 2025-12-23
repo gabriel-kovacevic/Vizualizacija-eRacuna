@@ -118,9 +118,19 @@
         <xsl:value-of select="format-number($number, '0.00')"/>
     </xsl:template>
 
-    <!-- Konverzija file attachmenta iz B64 -->
-     <xsl:template name="decode-attachment">
-        <xsl:param name="b64data" />
+    <!-- Switch statement za vrste privitaka -->
+     <xsl:template name="attachment-type">
+        <xsl:param name="code" />
+        <xsl:choose>
+            <xsl:when test="$code='application/pdf'"><xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/></xsl:when>
+            <xsl:when test="$code='image/jpeg'"><xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/></xsl:when>
+            <xsl:when test="$code='image/png'"><xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/></xsl:when>
+            <xsl:when test="$code='text/csv'"><xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/></xsl:when>
+            <xsl:when test="$code='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'"><xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/></xsl:when>
+            <xsl:when test="$code='application/vnd.oasis.opendocument.spreadsheet'"><xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/></xsl:when>
+            <xsl:otherwise>
+                <xsl:text>INVALID TYPE</xsl:text>
+            </xsl:otherwise>
 
     </xsl:template>
 
@@ -291,6 +301,7 @@
                         <div class="AdditionalDocumentReference">
                             <h2>Dodatni dokumenti</h2>
                             <xsl:for-each select="cac:AdditionalDocumentReference">
+                            <div class="Attachment">
                                 <strong>ID dokumenta: </strong><xsl:value-of select="cbc:ID"/><br/>
                                 <strong>Opis dokumenta: </strong><xsl:value-of select="cbc:DocumentDescription"/><br/>
                                 <a>
@@ -299,7 +310,9 @@
                                         <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
                                     </xsl:attribute>
                                     <xsl:attribute name="type">
-                                        <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>
+                                        <xsl:call-template name="attachment-type">
+                                            <xsl:with-param name="code" select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>
+                                        </xsl:call-template>
                                     </xsl:attribute>
                                     <xsl:attribute name="download">
                                         <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@filename"/>
@@ -307,6 +320,7 @@
                                     Preuzmi privitak
                                 </a>
                             </xsl:for-each>
+                            </div>    
                         </div>
                     </xsl:if>
                 </body>
