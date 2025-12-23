@@ -288,7 +288,7 @@
                         <xsl:for-each select="cac:AdditionalDocumentReference">
                             <strong>ID dokumenta: </strong><xsl:value-of select="cbc:ID"/><br/>
                             <strong>Opis dokumenta: </strong><xsl:value-of select="cbc:DocumentDescription"/><br/>
-                            <button>
+                              <button>
                               <xsl:attribute name="onclick">
                                 <xsl:value-of select="concat(
                                   'parent.postMessage({type: ''ATTACHMENT'', base64: ''',
@@ -296,9 +296,10 @@
                                   ''', mime: ''',
                                   cbc:EmbeddedDocumentBinaryObject/@mimeCode,
                                   ''', name: ''',
-                                  ../cbc:ID,
+                                  cbc:ID,
                                   '''}, ''*'');'
                                 )"/>
+                              </xsl:attribute>
                               Preuzmi privitak
                             </button>
                         </xsl:for-each>
