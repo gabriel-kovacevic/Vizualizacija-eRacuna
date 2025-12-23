@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <title>TEST Vizualizacija</title>
+
   <style>
     body {
       font-family: 'EON Brix Sans Regular', sans-serif;
@@ -13,31 +13,20 @@
     }
 
     h1 {
-      font-family: 'EON Brix Sans Regular', sans-serif;
       font-size: 4rem;
       margin-bottom: 1rem;
     }
 
-    input[type="file"] {
-      margin-bottom: 1.5rem;
-    }
-
     .header {
       display: flex;
-      flex-direction: row;
       justify-content: space-between;
-      margin: 0;
-      padding: 0;
-      width: 100vw;
-      height: 10%;
-      height: auto;
       background-color: #ea1b0a;
       color: #f8f5f2;
     }
 
-    .header a {
-      color: #f8f5f2;
-      margin: 0 1rem;
+    .header h1 {
+      margin: 1rem 2rem;
+      font-size: 2.5rem;
     }
 
     .contact {
@@ -46,532 +35,254 @@
       font-size: 1rem;
     }
 
-    .header h1 {
-      margin: 1rem 2rem;
-      width: fit-content;
-      font-size: 2.5rem;
-    }
-
     .content {
-      padding: 0 0 2rem 2rem;
+      padding: 2rem;
       display: flex;
-      flex-direction: row;
-      align-content: flex-start;
-      box-sizing: border-box;
-      width: 100%;
-    }
-
-    .content h1,
-    b {
-      color: #961482;
-    }
-
-    .controls {
-      margin-bottom: 1.5rem;
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
+      gap: 2rem;
     }
 
     .controls button {
       background: #27a9ff;
-      color: #f8f5f2;
+      color: #fff;
       border: none;
       padding: 0.5rem 1rem;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 1rem;
-      font-family: 'EON Brix Sans Regular', sans-serif;
-    }
-
-    .controls button:hover {
-      background: #00568f;
     }
 
     .result {
       display: flex;
-      flex-direction: row;
       flex-wrap: wrap;
       gap: 2rem;
-      width: 100%;
-      padding: 0 2rem 2rem 2rem;
-      box-sizing: border-box;
+      padding: 2rem;
     }
 
     .card {
-      background: #f8f5f2;
+      background: #fff;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,.1);
       flex: 1 1 600px;
       display: flex;
-      width: fit-content;
-      box-sizing: content-box;
       flex-direction: column;
     }
 
     .card-header {
-      padding: 0.5rem 1rem;
+      padding: .5rem 1rem;
       background: #d7d0cc;
-      border-bottom: 1px solid #e2e8f0;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .frames {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card-header button {
-      background: #27a9ff;
-      color: white;
-      border: none;
-      padding: 0.3rem 0.7rem;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-family: 'EON Brix Sans Regular', sans-serif;
-    }
-
-    .card-header button:hover {
-      background: #00568f;
-    }
-
-    .ctrl {
-      padding: 1%;
-      margin: 2%;
-    }
-
-    .upute {
-      display: flex;
-      flex-direction: column;
-      margin: 2%;
-      padding: 2%;
-      max-width: 30%;
-    }
-
-    .upute p {
-      word-wrap: break-word;
-      line-height: 1.5;
-    }
-
     iframe {
       width: 100%;
-      padding: 1%;
       height: 700px;
-      box-sizing: border-box;
       border: none;
-    }
-
-    @font-face {
-      font-family: EON Brix Sans Regular;
-      src: url(assets/EON_BRIXSANS-REGULAR.TTF);
-    }
-
-    @font-face {
-      font-family: EON Head;
-      src: url(assets/240502-EON_Head/EON/EON-Head.otf);
     }
   </style>
 </head>
 
 <body>
-  <div class="header">
-    <h1>TEST Vizualizacija eRačuna</h1>
-    <div class="contact">
-      <h2>Stranicu izradili: </h2>
-      <a href="mailto:matej.pericic.external@eon.hr">Matej Peričić</a><br>
-      <a href="mailto:gabriel.kovacevic.external@eon.hr">Gabriel Kovačević</a>
+
+<div class="header">
+  <h1>TEST Vizualizacija eRačuna</h1>
+  <div class="contact">
+    <strong>Stranicu izradili:</strong><br>
+    Matej Peričić<br>
+    Gabriel Kovačević
+  </div>
+</div>
+
+<div class="content">
+  <div>
+    <p>Select one or more XML files:</p>
+    <input type="file" id="xmlFiles" accept=".xml" multiple />
+    <div class="controls">
+      <button id="printAll" disabled>Print All as PDF</button>
+      <button id="exportAll" disabled>Export All as HTML</button>
     </div>
   </div>
-  <div class="frames">
-    <div class="content">
-      <div class="upute">
-        <h1>Kako koristiti?</h1>
-        <p>Pritiskom na gumb <b>Select one or more XML files</b>, otvorit će se dijalog za upload XML dokumenata. Kad
-          odaberete XML
-          dokumente računa koje želite vizualizirati, automatski će se pojaviti vizualizacija svakog od računa.
-          Pritiskom
-          na
-          gumb <b>Print All as PDF</b> otvorit će se print dijalog za svaki od računa.<br><br>Ako ih želite spremiti u
-          PDF
-          formatu,
-          odaberite <b>Save as PDF</b> ili <b>Microsoft Print to PDF</b> kao printer. Pritiskom na gumb <b>Export All as
-            HTML</b> preuzeti ćete
-          sve vizualizirane račune u ZIP datoteci u HTML formatu.<br><br>Osim preuzimanja svih računa, možete preuzeti i
-          pojedini vizualizirani račun pritiskom na <b>Print as PDF</b> gumb. Otvorit će se isti print dijalog, te je
-          također
-          potrebno odabrati PDF printer.</p>
-      </div>
+</div>
 
-      <div class="ctrl">
-        <p>Select one or more XML files:</p>
-        <input type="file" id="xmlFiles" accept=".xml" multiple />
-        <div class="controls">
-          <button id="printAll" disabled>️ Print All as PDF</button>
-          <button id="exportAll" disabled> Export All as HTML</button>
-        </div>
-      </div>
-    </div>
-    <div class="result" id="result"></div>
-  </div>
+<div class="result" id="result"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 
+<script>
+/* ================================
+   GLOBAL STATE
+================================ */
+const input = document.getElementById("xmlFiles");
+const result = document.getElementById("result");
+const printAllBtn = document.getElementById("printAll");
+const exportAllBtn = document.getElementById("exportAll");
 
-  <!-- JSZip for ZIP export -->
-  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+let xslDoc = null;
+let xslReady = false;
+let renderedDocs = [];
 
-  <script>
-    const input = document.getElementById("xmlFiles");
-    const result = document.getElementById("result");
-    const printAllBtn = document.getElementById("printAll");
-    const exportAllBtn = document.getElementById("exportAll");
-    let xslDoc, renderedDocs = [];
+/* ================================
+   LOAD XSL (BLOCK UNTIL READY)
+================================ */
+fetch("invoice-sap.xsl")
+  .then(r => r.text())
+  .then(txt => {
+    const parser = new DOMParser();
+    xslDoc = parser.parseFromString(txt, "application/xml");
 
-    // ===== Embed this CSS into each exported HTML =====
-    const embeddedCss = `
-/* === Embedded Invoice CSS === */
-/* ============================
-   GLOBAL A4 PAGE LAYOUT
-   ============================ */
-
-@font-face {
-  font-family: EON Brix Sans Regular;
-  src: url(assets/EON_BRIXSANS-REGULAR.TTF);
-}
-
-body {
-  font-family: 'EON Brix Sans Regular', sans-serif;
-  font-size: 13px;
-  color: #222;
-  background: #fff;
-
-  /* A4 printable width (minus margins) */
-  max-width: 190mm;
-  /* 210mm - 20mm margins */
-  margin: 0 auto;
-  padding: 10mm;
-
-  box-sizing: border-box;
-}
-
-h1,
-h2 {
-  font-weight: 600;
-  margin: 0 0 10px 0;
-}
-
-h1 {
-  font-size: 24px;
-}
-
-h2 {
-  font-size: 17px;
-  border-bottom: 2px solid #444;
-  padding-bottom: 4px;
-  margin-top: 20px;
-}
-
-/* ============================
-   INVOICE HEADER
-   ============================ */
-
-.invoice-header {
-  border-bottom: 2px solid #000;
-  padding-bottom: 12px;
-  margin-bottom: 20px;
-}
-
-/* ============================
-   SELLER & BUYER GRID (A4 WIDE)
-   ============================ */
-
-.parties {
-  display: flex;
-  justify-content: space-between;
-  gap: 10mm;
-  margin-top: 15px;
-}
-
-.parties>div {
-  flex: 1;
-  padding: 10px;
-  background: #f8f8f8;
-  border: 1px solid #ddd;
-  border-radius: 3px;
-}
-
-/* ============================
-   DELIVERY INFO
-   ============================ */
-
-.Delivery {
-  margin-top: 18px;
-  padding: 10px;
-  background-color: #f3f3f3;
-  border: 1px solid #ddd;
-  border-radius: 3px;
-}
-
-/* ============================
-   INVOICE TABLE (A4 width)
-   ============================ */
-
-.InvoiceLines {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 12px;
-  font-size: 13px;
-}
-
-.InvoiceLines th {
-  background-color: #eee;
-  border-bottom: 2px solid #555;
-  padding: 6px;
-  text-align: left;
-}
-
-.InvoiceLines td {
-  border-bottom: 1px solid #ddd;
-  padding: 6px;
-}
-
-.InvoiceLines tr:nth-child(even) {
-  background-color: #fafafa;
-}
-
-.InvoiceLines tr:hover {
-  background-color: #f0f0f0;
-}
-
-.InvoiceLines td:nth-child(5),
-.InvoiceLines td:nth-child(6),
-.InvoiceLines td:nth-child(7),
-.InvoiceLines td:nth-child(8) {
-  text-align: right;
-}
-
-/* ============================
-   TOTALS BOX
-   ============================ */
-
-.TaxTotal {
-  margin-top: 25px;
-  padding: 12px;
-  background: #f2f6ff;
-  border: 1px solid #c8d9ff;
-  border-radius: 3px;
-}
-
-.TaxTotal strong {
-  display: inline-block;
-  width: 220px;
-  font-size: 13px;
-}
-
-/* ============================
-   PRINT (A4) SETTINGS
-   ============================ */
-
-@page {
-  size: A4;
-  margin: 12mm;
-  /* Typical EU invoice margins */
-}
-
-@media print {
-
-  body {
-    margin: 0;
-    padding: 0;
-    max-width: none;
-  }
-
-  .invoice-header,
-  .parties,
-  .Delivery,
-  .InvoiceLines,
-  .TaxTotal {
-    page-break-inside: avoid !important;
-  }
-
-  .InvoiceLines tr {
-    page-break-inside: avoid !important;
-  }
-
-  * {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-}
-`;
-
-    // Load XSL once
-    fetch("invoice-sap.xsl")
-      .then(r => r.text())
-      .then(txt => {
-        const parser = new DOMParser();
-        xslDoc = parser.parseFromString(txt, "application/xml");
-      })
-      .catch(err => alert("Could not load XSL: " + err));
-
-    input.addEventListener("change", async e => {
-      result.innerHTML = "";
-      renderedDocs = [];
-      printAllBtn.disabled = true;
-      exportAllBtn.disabled = true;
-
-      const parser = new DOMParser();
-
-      for (const file of e.target.files) {
-        const xmlText = await file.text();
-        const xmlDoc = parser.parseFromString(xmlText, "application/xml");
-
-        if (xmlDoc.getElementsByTagName("parsererror").length) {
-          const div = document.createElement("div");
-          div.textContent = `❌ Error parsing ${file.name}`;
-          result.appendChild(div);
-          continue;
-        }
-
-        const proc = new XSLTProcessor();
-        proc.importStylesheet(xslDoc);
-        const transformed = proc.transformToDocument(xmlDoc);
-
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-          <div class="card-header">
-            <span>${file.name}</span>
-            <button>Print as PDF</button>
-          </div>
-        `;
-        const iframe = document.createElement("iframe");
-        card.appendChild(iframe);
-        result.appendChild(card);
-
-        const doc = iframe.contentDocument;
-
-        if (!transformed || !transformed.documentElement) {
-          console.error("XSLT transformation failed", transformed);
-          continue;
-        }
-
-        doc.open();
-        doc.write("<!DOCTYPE html><html>");
-        doc.write(transformed.documentElement.innerHTML);
-        doc.write("</html>");
-        doc.close();
-
-
-
-
-        const btn = card.querySelector("button");
-        btn.addEventListener("click", () => {
-          iframe.contentWindow.focus();
-          iframe.contentWindow.print();
-        });
-
-        renderedDocs.push({ iframe, filename: file.name });
-      }
-
-      if (renderedDocs.length > 0) {
-        printAllBtn.disabled = false;
-        exportAllBtn.disabled = false;
-      }
-    });
-
-    async function printAll() {
-      for (const { iframe } of renderedDocs) {
-        iframe.contentWindow.focus();
-        iframe.contentWindow.print();
-        await new Promise(r => setTimeout(r, 800));
-      }
-    }
-    printAllBtn.addEventListener("click", printAll);
-
-    // === Export all HTMLs with embedded CSS ===
-    async function exportAll() {
-      const zip = new JSZip();
-
-      for (const { iframe, filename } of renderedDocs) {
-        const htmlDoc = iframe.contentDocument.documentElement.cloneNode(true);
-        const head = htmlDoc.querySelector("head");
-        if (head) {
-          const styleTag = htmlDoc.ownerDocument.createElement("style");
-          styleTag.textContent = embeddedCss;
-          head.appendChild(styleTag);
-        }
-        const htmlString = "<!DOCTYPE html>\n" + htmlDoc.outerHTML;
-        const safeName = filename.replace(/\.xml$/i, ".html");
-        zip.file(safeName, htmlString);
-      }
-
-      const blob = await zip.generateAsync({ type: "blob" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "invoices.zip";
-      a.click();
-      URL.revokeObjectURL(url);
+    if (xslDoc.getElementsByTagName("parsererror").length) {
+      throw new Error("Invalid XSL");
     }
 
-    exportAllBtn.addEventListener("click", exportAll);
-    const ALLOWED_MIME_TYPES = {
-      "application/pdf": "pdf",
-      "image/png": "png",
-      "image/jpeg": "jpg",
-      "text/csv": "csv",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
-      "application/vnd.oasis.opendocument.spreadsheet": "ods"
+    xslReady = true;
+    console.log("XSL loaded");
+  })
+  .catch(err => {
+    alert("Failed to load XSL");
+    console.error(err);
+  });
+
+/* ================================
+   FILE INPUT HANDLER
+================================ */
+input.addEventListener("change", async e => {
+
+  if (!xslReady) {
+    alert("XSL još nije učitan. Pokušajte ponovno.");
+    input.value = "";
+    return;
+  }
+
+  result.innerHTML = "";
+  renderedDocs = [];
+  printAllBtn.disabled = true;
+  exportAllBtn.disabled = true;
+
+  const parser = new DOMParser();
+
+  for (const file of e.target.files) {
+
+    const xmlText = await file.text();
+    const xmlDoc = parser.parseFromString(xmlText, "application/xml");
+
+    if (xmlDoc.getElementsByTagName("parsererror").length) {
+      console.error("XML parse error:", file.name);
+      continue;
+    }
+
+    const proc = new XSLTProcessor();
+    proc.importStylesheet(xslDoc);
+
+    const transformed = proc.transformToDocument(xmlDoc);
+
+    if (!transformed || !transformed.documentElement) {
+      console.error("XSLT failed:", file.name);
+      continue;
+    }
+
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="card-header">
+        <span>${file.name}</span>
+        <button>Print as PDF</button>
+      </div>
+    `;
+
+    const iframe = document.createElement("iframe");
+    card.appendChild(iframe);
+    result.appendChild(card);
+
+    const doc = iframe.contentDocument;
+    doc.open();
+    doc.write("<!DOCTYPE html><html>");
+    doc.write(transformed.documentElement.innerHTML);
+    doc.write("</html>");
+    doc.close();
+
+    card.querySelector("button").onclick = () => {
+      iframe.contentWindow.focus();
+      iframe.contentWindow.print();
     };
 
-    window.addEventListener("message", e => {
-      if (!e.data || e.data.type !== "ATTACHMENT") return;
+    renderedDocs.push({ iframe, filename: file.name });
+  }
 
-      const { base64, mime, name } = e.data;
+  if (renderedDocs.length) {
+    printAllBtn.disabled = false;
+    exportAllBtn.disabled = false;
+  }
+});
 
-      if (!base64 || !mime) {
-        alert("Privitak nema ispravne podatke.");
-        return;
-      }
+/* ================================
+   PRINT ALL
+================================ */
+printAllBtn.onclick = async () => {
+  for (const { iframe } of renderedDocs) {
+    iframe.contentWindow.focus();
+    iframe.contentWindow.print();
+    await new Promise(r => setTimeout(r, 800));
+  }
+};
 
-      // 🔒 HARD BLOCK unsupported MIME types
-      if (!ALLOWED_MIME_TYPES[mime]) {
-        alert("Vrsta privitka nije podržana:\n" + mime);
-        return;
-      }
+/* ================================
+   EXPORT ALL HTML
+================================ */
+exportAllBtn.onclick = async () => {
+  const zip = new JSZip();
 
-      try {
-        const bytes = atob(base64);
-        const array = Uint8Array.from(bytes, c => c.charCodeAt(0));
-        const blob = new Blob([array], { type: mime });
+  for (const { iframe, filename } of renderedDocs) {
+    const html = "<!DOCTYPE html>\n" +
+      iframe.contentDocument.documentElement.outerHTML;
+    zip.file(filename.replace(/\.xml$/i, ".html"), html);
+  }
 
-        const extension = ALLOWED_MIME_TYPES[mime];
-        const fileName = (name || "attachment") + "." + extension;
-        const url = URL.createObjectURL(blob);
+  const blob = await zip.generateAsync({ type: "blob" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "invoices.zip";
+  a.click();
+};
 
-        // Preview only PDFs & images
-        if (mime === "application/pdf" || mime.startsWith("image/")) {
-          window.open(url, "_blank");
-        } else {
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = fileName;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        }
+/* ================================
+   ATTACHMENT HANDLING (STRICT)
+================================ */
+const ALLOWED_MIME_TYPES = {
+  "application/pdf": "pdf",
+  "image/png": "png",
+  "image/jpeg": "jpg",
+  "text/csv": "csv",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
+  "application/vnd.oasis.opendocument.spreadsheet": "ods"
+};
 
-        URL.revokeObjectURL(url);
-      } catch (err) {
-        console.error(err);
-        alert("Greška pri obradi privitka.");
-      }
-    });
-  </script>
+window.addEventListener("message", e => {
+  if (!e.data || e.data.type !== "ATTACHMENT") return;
+
+  const { base64, mime, name } = e.data;
+
+  if (!ALLOWED_MIME_TYPES[mime]) {
+    alert("Nepodržan tip privitka:\n" + mime);
+    return;
+  }
+
+  const bytes = atob(base64);
+  const arr = Uint8Array.from(bytes, c => c.charCodeAt(0));
+  const blob = new Blob([arr], { type: mime });
+  const url = URL.createObjectURL(blob);
+
+  if (mime === "application/pdf" || mime.startsWith("image/")) {
+    window.open(url, "_blank");
+  } else {
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${name}.${ALLOWED_MIME_TYPES[mime]}`;
+    a.click();
+  }
+
+  URL.revokeObjectURL(url);
+});
+</script>
+
 </body>
-
 </html>
