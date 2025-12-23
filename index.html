@@ -453,9 +453,16 @@ h2 {
         result.appendChild(card);
 
         const doc = iframe.contentDocument;
+        if (!transformed || !transformed.documentElement) {
+          console.error("XSLT transformation failed", transformed);
+          return;
+        }
+
         doc.open();
-        doc.write(new XMLSerializer().serializeToString(transformed));
+        doc.write("<!DOCTYPE html>");
+        doc.write(transformed.documentElement.outerHTML);
         doc.close();
+
 
         const btn = card.querySelector("button");
         btn.addEventListener("click", () => {
