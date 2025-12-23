@@ -271,19 +271,18 @@
                         <xsl:for-each select="cac:AdditionalDocumentReference">
                             <xsl:variable name="base64" select="cbc:EmbeddedDocumentBinaryObject"/>
                             <xsl:variable name="mime" select="cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>
-                            <xsl:variable name="name" select="cbc:ID"/>
-                            
+                            <xsl:variable name="name" select="cbc:ID"/>   
                             <button>
-                                <xsl:attribute name="onclick">
-                                    <xsl:text>parent.postMessage({type: 'ATTACHMENT', base64: '</xsl:text>
-                                    <xsl:value-of select="$base64"/>
-                                    <xsl:text>', mime: '</xsl:text>
-                                    <xsl:value-of select="$mime"/>
-                                    <xsl:text>', name: '</xsl:text>
-                                    <xsl:value-of select="$name"/>
-                                    <xsl:text>'}, '*');</xsl:text>
-                                </xsl:attribute>
-                                Preuzmi privitak
+                              <xsl:attribute name="onclick">
+                                <xsl:text>parent.postMessage({type: "ATTACHMENT", base64: "</xsl:text>
+                                <xsl:value-of select="normalize-space(cbc:EmbeddedDocumentBinaryObject)"/>
+                                <xsl:text>", mime: "</xsl:text>
+                                <xsl:value-of select="cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>
+                                <xsl:text>", name: "</xsl:text>
+                                <xsl:value-of select="cbc:ID"/>
+                                <xsl:text>"}, "*");</xsl:text>
+                              </xsl:attribute>
+                              Preuzmi privitak
                             </button>
                         </xsl:for-each>
                     </div>
