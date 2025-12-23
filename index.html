@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>TEST Vizualizacija</title>
@@ -60,7 +61,7 @@
     .card {
       background: #fff;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,.1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
       flex: 1 1 600px;
       display: flex;
       flex-direction: column;
@@ -84,205 +85,206 @@
 
 <body>
 
-<div class="header">
-  <h1>TEST Vizualizacija eRačuna</h1>
-  <div class="contact">
-    <strong>Stranicu izradili:</strong><br>
-    Matej Peričić<br>
-    Gabriel Kovačević
-  </div>
-</div>
-
-<div class="content">
-  <div>
-    <p>Select one or more XML files:</p>
-    <input type="file" id="xmlFiles" accept=".xml" multiple />
-    <div class="controls">
-      <button id="printAll" disabled>Print All as PDF</button>
-      <button id="exportAll" disabled>Export All as HTML</button>
+  <div class="header">
+    <h1>TEST Vizualizacija eRačuna</h1>
+    <div class="contact">
+      <strong>Stranicu izradili:</strong><br>
+      Matej Peričić<br>
+      Gabriel Kovačević
     </div>
   </div>
-</div>
 
-<div class="result" id="result"></div>
+  <div class="content">
+    <div>
+      <p>Select one or more XML files:</p>
+      <input type="file" id="xmlFiles" accept=".xml" multiple />
+      <div class="controls">
+        <button id="printAll" disabled>Print All as PDF</button>
+        <button id="exportAll" disabled>Export All as HTML</button>
+      </div>
+    </div>
+  </div>
 
-<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <div class="result" id="result"></div>
 
-<script>
-/* ================================
-   GLOBAL STATE
-================================ */
-const input = document.getElementById("xmlFiles");
-const result = document.getElementById("result");
-const printAllBtn = document.getElementById("printAll");
-const exportAllBtn = document.getElementById("exportAll");
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 
-let xslDoc = null;
-let xslReady = false;
-let renderedDocs = [];
+  <script>
+    /* ================================
+       GLOBAL STATE
+    ================================ */
+    const input = document.getElementById("xmlFiles");
+    const result = document.getElementById("result");
+    const printAllBtn = document.getElementById("printAll");
+    const exportAllBtn = document.getElementById("exportAll");
 
-/* ================================
-   LOAD XSL (BLOCK UNTIL READY)
-================================ */
-fetch("invoice-sap.xsl")
-  .then(r => r.text())
-  .then(txt => {
-    const parser = new DOMParser();
-    xslDoc = parser.parseFromString(txt, "application/xml");
+    let xslDoc = null;
+    let xslReady = false;
+    let renderedDocs = [];
 
-    if (xslDoc.getElementsByTagName("parsererror").length) {
-      throw new Error("Invalid XSL");
-    }
+    /* ================================
+       LOAD XSL (BLOCK UNTIL READY)
+    ================================ */
+    fetch("invoice-sap.xsl")
+      .then(r => r.text())
+      .then(txt => {
+        const parser = new DOMParser();
+        xslDoc = parser.parseFromString(txt, "application/xml");
 
-    xslReady = true;
-    console.log("XSL loaded");
-  })
-  .catch(err => {
-    alert("Failed to load XSL");
-    console.error(err);
-  });
+        if (xslDoc.getElementsByTagName("parsererror").length) {
+          throw new Error("Invalid XSL");
+        }
 
-/* ================================
-   FILE INPUT HANDLER
-================================ */
-input.addEventListener("change", async e => {
+        xslReady = true;
+        console.log("XSL loaded");
+      })
+      .catch(err => {
+        alert("Failed to load XSL");
+        console.error(err);
+      });
 
-  if (!xslReady) {
-    alert("XSL još nije učitan. Pokušajte ponovno.");
-    input.value = "";
-    return;
-  }
+    /* ================================
+       FILE INPUT HANDLER
+    ================================ */
+    input.addEventListener("change", async e => {
 
-  result.innerHTML = "";
-  renderedDocs = [];
-  printAllBtn.disabled = true;
-  exportAllBtn.disabled = true;
+      if (!xslReady) {
+        alert("XSL još nije učitan. Pokušajte ponovno.");
+        input.value = "";
+        return;
+      }
 
-  const parser = new DOMParser();
+      result.innerHTML = "";
+      renderedDocs = [];
+      printAllBtn.disabled = true;
+      exportAllBtn.disabled = true;
 
-  for (const file of e.target.files) {
+      const parser = new DOMParser();
 
-    const xmlText = await file.text();
-    const xmlDoc = parser.parseFromString(xmlText, "application/xml");
+      for (const file of e.target.files) {
 
-    if (xmlDoc.getElementsByTagName("parsererror").length) {
-      console.error("XML parse error:", file.name);
-      continue;
-    }
+        const xmlText = await file.text();
+        const xmlDoc = parser.parseFromString(xmlText, "application/xml");
 
-    const proc = new XSLTProcessor();
-    proc.importStylesheet(xslDoc);
+        if (xmlDoc.getElementsByTagName("parsererror").length) {
+          console.error("XML parse error:", file.name);
+          continue;
+        }
 
-    const transformed = proc.transformToDocument(xmlDoc);
+        const proc = new XSLTProcessor();
+        proc.importStylesheet(xslDoc);
 
-    if (!transformed || !transformed.documentElement) {
-      console.error("XSLT failed:", file.name);
-      continue;
-    }
+        const transformed = proc.transformToDocument(xmlDoc);
 
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
+        if (!transformed || !transformed.documentElement) {
+          console.error("XSLT failed:", file.name);
+          continue;
+        }
+
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
       <div class="card-header">
         <span>${file.name}</span>
         <button>Print as PDF</button>
       </div>
     `;
 
-    const iframe = document.createElement("iframe");
-    card.appendChild(iframe);
-    result.appendChild(card);
+        const iframe = document.createElement("iframe");
+        card.appendChild(iframe);
+        result.appendChild(card);
 
-    const doc = iframe.contentDocument;
-    doc.open();
-    doc.write("<!DOCTYPE html><html>");
-    doc.write(transformed.documentElement.innerHTML);
-    doc.write("</html>");
-    doc.close();
+        const doc = iframe.contentDocument;
+        doc.open();
+        doc.write("<!DOCTYPE html><html>");
+        doc.write(transformed.documentElement.innerHTML);
+        doc.write("</html>");
+        doc.close();
 
-    card.querySelector("button").onclick = () => {
-      iframe.contentWindow.focus();
-      iframe.contentWindow.print();
+        card.querySelector("button").onclick = () => {
+          iframe.contentWindow.focus();
+          iframe.contentWindow.print();
+        };
+
+        renderedDocs.push({ iframe, filename: file.name });
+      }
+
+      if (renderedDocs.length) {
+        printAllBtn.disabled = false;
+        exportAllBtn.disabled = false;
+      }
+    });
+
+    /* ================================
+       PRINT ALL
+    ================================ */
+    printAllBtn.onclick = async () => {
+      for (const { iframe } of renderedDocs) {
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+        await new Promise(r => setTimeout(r, 800));
+      }
     };
 
-    renderedDocs.push({ iframe, filename: file.name });
-  }
+    /* ================================
+       EXPORT ALL HTML
+    ================================ */
+    exportAllBtn.onclick = async () => {
+      const zip = new JSZip();
 
-  if (renderedDocs.length) {
-    printAllBtn.disabled = false;
-    exportAllBtn.disabled = false;
-  }
-});
+      for (const { iframe, filename } of renderedDocs) {
+        const html = "<!DOCTYPE html>\n" +
+          iframe.contentDocument.documentElement.outerHTML;
+        zip.file(filename.replace(/\.xml$/i, ".html"), html);
+      }
 
-/* ================================
-   PRINT ALL
-================================ */
-printAllBtn.onclick = async () => {
-  for (const { iframe } of renderedDocs) {
-    iframe.contentWindow.focus();
-    iframe.contentWindow.print();
-    await new Promise(r => setTimeout(r, 800));
-  }
-};
+      const blob = await zip.generateAsync({ type: "blob" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "invoices.zip";
+      a.click();
+    };
 
-/* ================================
-   EXPORT ALL HTML
-================================ */
-exportAllBtn.onclick = async () => {
-  const zip = new JSZip();
+    /* ================================
+       ATTACHMENT HANDLING (STRICT)
+    ================================ */
+    const ALLOWED_MIME_TYPES = {
+      "application/pdf": "pdf",
+      "image/png": "png",
+      "image/jpeg": "jpg",
+      "text/csv": "csv",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
+      "application/vnd.oasis.opendocument.spreadsheet": "ods"
+    };
 
-  for (const { iframe, filename } of renderedDocs) {
-    const html = "<!DOCTYPE html>\n" +
-      iframe.contentDocument.documentElement.outerHTML;
-    zip.file(filename.replace(/\.xml$/i, ".html"), html);
-  }
+    window.addEventListener("message", e => {
+      if (!e.data || e.data.type !== "ATTACHMENT") return;
 
-  const blob = await zip.generateAsync({ type: "blob" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "invoices.zip";
-  a.click();
-};
+      const { base64, mime, name } = e.data;
 
-/* ================================
-   ATTACHMENT HANDLING (STRICT)
-================================ */
-const ALLOWED_MIME_TYPES = {
-  "application/pdf": "pdf",
-  "image/png": "png",
-  "image/jpeg": "jpg",
-  "text/csv": "csv",
-  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
-  "application/vnd.oasis.opendocument.spreadsheet": "ods"
-};
+      if (!ALLOWED_MIME_TYPES[mime]) {
+        alert("Nepodržan tip privitka:\n" + mime);
+        return;
+      }
 
-window.addEventListener("message", e => {
-  if (!e.data || e.data.type !== "ATTACHMENT") return;
+      const bytes = atob(base64);
+      const arr = Uint8Array.from(bytes, c => c.charCodeAt(0));
+      const blob = new Blob([arr], { type: mime });
+      const url = URL.createObjectURL(blob);
 
-  const { base64, mime, name } = e.data;
+      if (mime === "application/pdf" || mime.startsWith("image/")) {
+        window.open(url, "_blank");
+      } else {
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${name}.${ALLOWED_MIME_TYPES[mime]}`;
+        a.click();
+      }
 
-  if (!ALLOWED_MIME_TYPES[mime]) {
-    alert("Nepodržan tip privitka:\n" + mime);
-    return;
-  }
-
-  const bytes = atob(base64);
-  const arr = Uint8Array.from(bytes, c => c.charCodeAt(0));
-  const blob = new Blob([arr], { type: mime });
-  const url = URL.createObjectURL(blob);
-
-  if (mime === "application/pdf" || mime.startsWith("image/")) {
-    window.open(url, "_blank");
-  } else {
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${name}.${ALLOWED_MIME_TYPES[mime]}`;
-    a.click();
-  }
-
-  URL.revokeObjectURL(url);
-});
-</script>
+      URL.revokeObjectURL(url);
+    });
+  </script>
 
 </body>
+
 </html>
