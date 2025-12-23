@@ -282,7 +282,7 @@
                         </xsl:if>
                     </div>
 
-                    <xsl:if test="cac:AdditionalDocumentReference/cbc:Attachment">
+                    <xsl:if test="cac:AdditionalDocumentReference">
                         <div class="Attachment">
                             <h2>Dodatni dokumenti</h2>
                             <xsl:for-each select="cac:AdditionalDocumentReference/cbc:Attachment">
