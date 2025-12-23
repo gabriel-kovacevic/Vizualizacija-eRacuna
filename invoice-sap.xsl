@@ -281,6 +281,21 @@
                             <strong>Razlog prijenosa porezne obveze: </strong><xsl:value-of select="cac:InvoiceLine/cac:Item/cac:ClassifiedTaxCategory/cbc:TaxExemptionReason"/>
                         </xsl:if>
                     </div>
+
+                    <xsl:if test="cac:AdditionalDocumentReference/cbc:Attachment">
+                        <div class="Attachment">
+                            <h2>Dodatni dokumenti</h2>
+                            <xsl:for-each select="cac:AdditionalDocumentReference/cbc:Attachment">
+                                <strong>Dokument ID: </strong><xsl:value-of select="cbc:ID"/><br/>
+                                <strong>Opis: </strong><xsl:value-of select="cbc:DocumentDescription"/><br/>
+                                <strong>Vrsta privitka: </strong><xsl:value-of select="cbc:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/><br/>
+                                <strong>Privitak: </strong>
+                                <script>
+                                    document.write(atob('<xsl:value-of select="cbc:Attachment/cbc:EmbeddedDocumentBinaryObject"/>'));
+                                </script>
+                            </xsl:for-each>
+                        </div>
+                    </xsl:if>
                 </body>
             </html>
         </xsl:template>
