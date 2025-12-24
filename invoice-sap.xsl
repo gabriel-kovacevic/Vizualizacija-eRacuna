@@ -124,18 +124,12 @@
         <xsl:choose>
             <xsl:when test="$code='application/pdf'">
                 <xsl:attribute name="href">
-                    data:
-                    <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>
-                    ;base64,
-                    <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
+                    data:<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
                 </xsl:attribute>                
             </xsl:when>
             <xsl:when test="$code='image/jpeg'">
                 <xsl:attribute name="href">
-                    data:
-                    <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>
-                    ;base64,
-                    <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
+                    data:<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
                 </xsl:attribute>    
             </xsl:when>
             <xsl:when test="$code='image/png'">
