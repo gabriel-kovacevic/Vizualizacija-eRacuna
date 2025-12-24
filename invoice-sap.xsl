@@ -330,6 +330,7 @@
                                     </xsl:attribute>
                                     <xsl:call-template name="attachment-type">
                                         <xsl:with-param name="attachment" select="cac:Attachment"/>
+                                        <xsl:with-param name="code" select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>
                                     </xsl:call-template>
                                     Preuzmi privitak
                                 </a>
