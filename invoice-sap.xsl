@@ -153,7 +153,7 @@
                 </xsl:attribute>                    
             </xsl:when>
             <xsl:otherwise>
-                <xsl:attribute>INVALID_TYPE</xsl:attribute>
+                <xsl:attribute name="href">INVALID_TYPE</xsl:attribute>
             </xsl:otherwise>
     </xsl:template>
 
