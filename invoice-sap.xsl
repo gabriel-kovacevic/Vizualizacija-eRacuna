@@ -171,7 +171,7 @@
                 </xsl:attribute>                    
             </xsl:when>
             <xsl:otherwise>
-                <xsl:text>INVALID TYPE</xsl:text>
+                <xsl:attribute>INVALID TYPE</xsl:attribute>
             </xsl:otherwise>
     </xsl:template>
 
