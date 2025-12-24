@@ -124,32 +124,32 @@
         <xsl:choose>
             <xsl:when test="$code='application/pdf'">
                 <xsl:attribute name="href">
-                    data:<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
+                    data:<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
                 </xsl:attribute>                
             </xsl:when>
             <xsl:when test="$code='image/jpeg'">
                 <xsl:attribute name="href">
-                    data:<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
+                    data:<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
                 </xsl:attribute>    
             </xsl:when>
             <xsl:when test="$code='image/png'">
                 <xsl:attribute name="href">
-                    data:<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
+                    data:<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
                 </xsl:attribute>                    
             </xsl:when>
             <xsl:when test="$code='text/csv'">
                 <xsl:attribute name="href">
-                    data:<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
+                    data:<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
                 </xsl:attribute>                    
             </xsl:when>
             <xsl:when test="$code='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'">
                 <xsl:attribute name="href">
-                    data:<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
+                    data:<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
                 </xsl:attribute>                    
             </xsl:when>
             <xsl:when test="$code='application/vnd.oasis.opendocument.spreadsheet'">
                 <xsl:attribute name="href">
-                    data:<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
+                    data:<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
                 </xsl:attribute>                    
             </xsl:when>
             <xsl:otherwise>
@@ -328,15 +328,15 @@
                                 <strong>ID dokumenta: </strong><xsl:value-of select="cbc:ID"/><br/>
                                 <strong>Opis dokumenta: </strong><xsl:value-of select="cbc:DocumentDescription"/><br/>
                                 <a>
-                                    <xsl:call-template name="attachment-type">
-                                        <xsl:with-param name="code" select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>
-                                    </xsl:call-template>
                                     <xsl:attribute name="type">
                                         <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>
                                     </xsl:attribute>
                                     <xsl:attribute name="download">
                                         <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@filename"/>
                                     </xsl:attribute>
+                                    <xsl:call-template name="attachment-type">
+                                        <xsl:with-param name="code" select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>
+                                    </xsl:call-template>                                    
                                     Preuzmi privitak
                                 </a>
                             </xsl:for-each>
