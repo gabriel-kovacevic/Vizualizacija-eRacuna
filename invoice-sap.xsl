@@ -119,43 +119,37 @@
     </xsl:template>
 
     <!-- Switch statement za vrste privitaka -->
-     <xsl:template name="attachment-type">
-        <xsl:param name="code" />
-        <xsl:choose>
-            <xsl:when test="$code='application/pdf'">
-                <xsl:attribute name="href">
-                    data:<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
-                </xsl:attribute>                
-            </xsl:when>
-            <xsl:when test="$code='image/jpeg'">
-                <xsl:attribute name="href">
-                    data:<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
-                </xsl:attribute>    
-            </xsl:when>
-            <xsl:when test="$code='image/png'">
-                <xsl:attribute name="href">
-                    data:<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
-                </xsl:attribute>                    
-            </xsl:when>
-            <xsl:when test="$code='text/csv'">
-                <xsl:attribute name="href">
-                    data:<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
-                </xsl:attribute>                    
-            </xsl:when>
-            <xsl:when test="$code='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'">
-                <xsl:attribute name="href">
-                    data:<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
-                </xsl:attribute>                    
-            </xsl:when>
-            <xsl:when test="$code='application/vnd.oasis.opendocument.spreadsheet'">
-                <xsl:attribute name="href">
-                    data:<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>;base64,<xsl:value-of select="cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject"/>
-                </xsl:attribute>                    
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:attribute name="href">INVALID_TYPE</xsl:attribute>
-            </xsl:otherwise>
+    <xsl:template name="attachment-type">
+       <xsl:param name="attachment"/>
+       <xsl:param name="code"/>
+    
+       <xsl:choose>
+           <xsl:when test="
+               $code = 'application/pdf'
+               or $code = 'image/jpeg'
+               or $code = 'image/png'
+               or $code = 'text/csv'
+               or $code = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+               or $code = 'application/vnd.oasis.opendocument.spreadsheet'
+           ">
+               <xsl:attribute name="href">
+                   <xsl:value-of select="
+                       concat(
+                           'data:',
+                           $code,
+                           ';base64,',
+                           normalize-space(
+                               $attachment/cbc:EmbeddedDocumentBinaryObject
+                           )
+                       )
+                   "/>
+               </xsl:attribute>
+           </xsl:when>
+           <xsl:otherwise/>
+       </xsl:choose>
     </xsl:template>
+
+
 
     <!-- Template za račun -->
     <xsl:template match="/ubl-inv:Invoice">
@@ -335,8 +329,8 @@
                                         <xsl:value-of select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@filename"/>
                                     </xsl:attribute>
                                     <xsl:call-template name="attachment-type">
-                                        <xsl:with-param name="code" select="cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@mimeCode"/>
-                                    </xsl:call-template>                                    
+                                        <xsl:with-param name="attachment" select="cac:Attachment"/>
+                                    </xsl:call-template>
                                     Preuzmi privitak
                                 </a>
                             </xsl:for-each>
